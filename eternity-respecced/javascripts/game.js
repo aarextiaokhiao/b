@@ -59,6 +59,7 @@ var player = {
     infinityPoints: new Decimal(0),
     infinitied: 0,
     bankedInfinities: 0,
+    bankedEternities: 0,
     totalTimePlayed: 0,
     bestInfinityTime: 9999999999,
     thisInfinityTime: 0,
@@ -953,6 +954,10 @@ function onLoad() {
         player.bankedInfinities = 0;
     }
 
+    if (player.bankedEternities === undefined) {
+        player.bankedEternities = 0;
+    }
+
     while (player.timestudy.studies.length < 1 + numTimeStudies) {
         player.timestudy.studies.push(0);
     }
@@ -1704,6 +1709,14 @@ function getDimboostCostIncrease() {
         ret -= Math.min(8, Math.pow(player.eternityPoints.max(1).log(10), .25));
     }
     return ret;
+}
+
+function maxTier () {
+    if (player.currentChallenge == "challenge4") {
+        return 6;
+    } else {
+        return 8;
+    }
 }
 
 function getShiftRequirement(bulk) {
@@ -2722,13 +2735,9 @@ function buyTimeStudy(num) {
 
 function buyManyTimeStudy(num, x) {
   if (studyHasBeenUnlocked(num)) {
-      let already = player.timestudy.studies[num];
-      let totalTT = player.timestudy.theorem + already * (already + 1) / 2;
-      let total = Math.floor((Math.sqrt(totalTT * 8 + 1 + .001) - 1) / 2);
-      let newAmount = Math.min(x, total - already);
-      let newCost = newAmount * (newAmount + 2 * already + 1) / 2
-      player.timestudy.studies[num] += newAmount;
-      player.timestudy.theorem -= newCost;
+      let toBuy = arithmeticSequencePurchases(1, player.timestudy.studies[x] + 1, player.timestudy.theorem);
+      player.timestudy.studies[num] += toBuy.amount;
+      player.timestudy.theorem -= toBuy.cost;
       updateTheoremButtons()
       updateTimeStudyButtons()
       return true;
@@ -2853,10 +2862,6 @@ function buyMaxGalacticStudies () {
   player.intergalactic.galacticstudy.theorems += g * galacticTheoremsPerAntigalaxy();
 }
 
-function getTotalGT () {
-  return player.intergalactic.antigalaxies * galacticTheoremsPerAntigalaxy();
-}
-
 function updateGalacticTheoremButtons() {
     let b = player.intergalactic.galacticstudy.bulk;
     let g = getBuyableGalacticStudies();
@@ -2864,26 +2869,55 @@ function updateGalacticTheoremButtons() {
     document.getElementById("gtheoremone").className = (g >= 1) ? "galactictheorembtn" : "galactictheorembtnlocked"
     document.getElementById("gtheoremchosen").className = (g >= b) ? "galactictheorembtn" : "galactictheorembtnlocked"
     document.getElementById("gtheoremmax").className = (g >= 1) ? "galactictheorembtn" : "galactictheorembtnlocked"
-    document.getElementById("gtheoremone").innerHTML = 'Get 1 antigalaxy and ' + per + ' galactic theorem' + ((per === 1) ? '' : 's') + '.';
-    document.getElementById("gtheoremchosen").innerHTML = 'Get ' + b + ' antigalax' + ((b === 1) ? 'y' : 'ies') + ' and ' + (b * per) + ' galactic theorem' + ((b * per === 1) ? '' : 's') + '.';
-    document.getElementById("gtheoremmax").innerHTML = 'Get ' + g + ' antigalax' + ((g === 1) ? 'y' : 'ies') + ' and ' + (g * per) + ' galactic theorem' + ((g * per === 1) ? '' : 's') + '.';
-    document.getElementById("galactictheorems").innerHTML = "You have <span style='display:inline' class=\"GalacticTheoremAmount\">"+player.intergalactic.galacticstudy.theorem+"</span> unspent Time "+ (player.intergalactic.galacticstudy.theorem === 1 ? "Theorem." : "Theorems.")
-    document.getElementById("galactictheorems").innerHTML = "You have <span style='display:inline' class=\"GalacticTheoremAmount\">"+getTotalGT()+"</span> total Time "+ (getTotalGT() === 1 ? "Theorem." : "Theorems.");
+    document.getElementById("gtheoremone").innerHTML = 'Get 1 antigalaxy and ' + per + ' Galactic Theorem' + ((per === 1) ? '' : 's') + '.';
+    document.getElementById("gtheoremchosen").innerHTML = 'Get ' + b + ' antigalax' + ((b === 1) ? 'y' : 'ies') + ' and ' + (b * per) + ' Galactic Theorem' + ((b * per === 1) ? '' : 's') + '.';
+    document.getElementById("gtheoremmax").innerHTML = 'Get ' + g + ' antigalax' + ((g === 1) ? 'y' : 'ies') + ' and ' + (g * per) + ' Galactic Theorem' + ((g * per === 1) ? '' : 's') + '.';
+    document.getElementById("galactictheorems").innerHTML = "You have <span style='display:inline' class=\"GalacticTheoremAmount\">"+player.intergalactic.galacticstudy.theorem+"</span> unspent Galactic "+ (player.intergalactic.galacticstudy.theorem === 1 ? "Theorem." : "Theorems.")
+}
+
+function buyOneGalacticStudy (id) {
+    let cost = getGalacticStudyCost(id);
+    if (player.intergalactic.galacticstudy.theorems >= cost) {
+        player.intergalactic.galacticstudy.studies[id] += 1;
+        player.intergalactic.galacticstudy.theorems -= cost;
+        updateGalacticTheoremButtons()
+        updateGalacticStudyButtons()
+        return true;
+    } else {
+        return false;
+    }
+}
+
+function arithmeticSequencePurchases (cost, increase, remainingResource, minimumPurchases, maximumPurchases) {
+    // increase * x * (x - 1) / 2 + cost * x - resource = 0
+    // increase / 2 * x ** 2 + (cost - increase / 2) * x - remainingResource = 0
+    if (minimumPurchases === undefined) {
+        minimumPurchases = 0;
+    }
+    if (maximumPurchases === undefined) {
+        maximumPurchases = Infinity;
+    }
+    let a = increase / 2;
+    let b = cost - increase / 2;
+    let c = remainingResource;
+    let amount = Math.min(maximumPurchases, Math.max(minimumPurchases, Math.floor((-b + Math.sqrt(Math.pow(b, 2) - 4 * a * c)) / (2 * a))));
+    let cost = increase * amount * (amount - 1) / 2 + cost * amount;
+    return {
+        'amount': amount,
+        'cost': cost
+    }
+}
+
+function buyManyGalacticStudy (id, x) {
+    let toBuy = arithmeticSequencePurchases(2, getGalacticStudyCost(id), player.intergalactic.galacticstudy.theorems);
+    player.intergalactic.galacticstudy.studies[id] += toBuy.amount;
+    player.intergalactic.galacticstudy.theorems -= toBuy.cost;
+    updateGalacticTheoremButtons()
+    updateGalacticStudyButtons()
+    return newAmount > 0;
 }
 
 /*
-
-function buyTimeStudy(num) {
-  if (player.timestudy.theorem >= 1 + player.timestudy.studies[num] && studyHasBeenUnlocked(num)) {
-      player.timestudy.studies[num] += 1;
-      player.timestudy.theorem -= player.timestudy.studies[num];
-      updateTheoremButtons()
-      updateTimeStudyButtons()
-      return true;
-  } else {
-      return false;
-  }
-}
 
 function buyManyTimeStudy(num, x) {
   if (studyHasBeenUnlocked(num)) {
@@ -2896,7 +2930,7 @@ function buyManyTimeStudy(num, x) {
       player.timestudy.theorem -= newCost;
       updateTheoremButtons()
       updateTimeStudyButtons()
-      return true;
+      return newAmount > 0;
   } else {
       return false;
   }
@@ -3026,6 +3060,7 @@ function softReset(bulk, reallyZero) {
         infinityPoints: player.infinityPoints,
         infinitied: player.infinitied,
         bankedInfinities: player.bankedInfinities,
+        bankedEternities: player.bankedEternities,
         totalTimePlayed: player.totalTimePlayed,
         bestInfinityTime: player.bestInfinityTime,
         thisInfinityTime: player.thisInfinityTime,
@@ -3756,25 +3791,19 @@ function buyManyDimensionAuto(tier, bulk) {
     }
 
     // so we have a quadratic
-    let a1 = Math.log(player.dimensionMultDecrease);
-    let b1 = getDimensionCostMultiplier(tier).ln();
-    let c1 = player[name + 'Cost'].times(10).ln();
-    let d1 = player.money.ln();
-    // a1 * (x * (x - 1) / 2) + b1 * x + c1 - d1 = 0
-    // a1 / 2 * x^2 + (b1 - a1 / 2) * x + (c1 - d1) = 0
-    let a = a1 / 2;
-    let b = b1 - a1 / 2;
-    let c = c1 - d1;
-    let solution = Math.floor((-b + Math.sqrt(Math.pow(b, 2) - 4 * a * c)) / (2 * a)) + 1;
-    solution = Math.min(x, solution);
-    if (solution <= 0) {
+    let a1 = Math.log10(player.dimensionMultDecrease);
+    let b1 = getDimensionCostMultiplier(tier).log(10);
+    let c1 = player.money.log(10) - player[name + 'Cost'].times(10).log(10);
+    let toBuy = arithmeticSequencePurchases(a1, b1, c1, -1, x);
+    // note that the amount returned is one less than the actual number to buy
+    // that is, if we get -1, that means buy 0.
+    if (toBuy < 0) {
         return x !== bulk;
     }
-    player[name + 'Cost'] = player[name + 'Cost'].times(getDimensionCostMultiplier(tier).pow(solution - 1).times(
-      Decimal.pow(player.dimensionMultDecrease, (solution - 1) * (solution - 2) / 2)));
-    player.costMultipliers[tier-1] = player.costMultipliers[tier-1].times(Decimal.pow(player.dimensionMultDecrease, solution - 1));
-    player[name + 'Amount'] = player[name + 'Amount'].plus(10 * solution);
-    player[name + 'Pow']  = player[name + 'Pow'].times(Decimal.pow(getDimensionPowerMultiplier(tier), solution));
+    player[name + 'Cost'] = player[name + 'Cost'].times(Decimal.pow(10, toBuy.cost));
+    player.costMultipliers[tier-1] = player.costMultipliers[tier-1].times(Decimal.pow(player.dimensionMultDecrease, toBuy.amount));
+    player[name + 'Amount'] = player[name + 'Amount'].plus(10 * (toBuy.amount + 1));
+    player[name + 'Pow']  = player[name + 'Pow'].times(Decimal.pow(getDimensionPowerMultiplier(tier), toBuy.amount + 1));
     player.money = player.money.minus(player[name + 'Cost'].times(10))
     player[name + 'Cost'] = player[name + 'Cost'].times(getDimensionCostMultiplier(tier));
     player.costMultipliers[tier-1] = player.costMultipliers[tier-1].times(player.dimensionMultDecrease);
@@ -3803,23 +3832,16 @@ function buyMaxTickSpeed() {
     }
 
     // so we have a quadratic
-    let a1 = Math.log(player.tickSpeedMultDecrease);
-    let b1 = player.tickspeedMultiplier.ln();
-    let c1 = player.tickSpeedCost.ln();
-    let d1 = player.money.ln();
-    // a1 * (x * (x - 1) / 2) + b1 * x + c1 - d1 = 0
-    // a1 / 2 * x^2 + (b1 - a1 / 2) * x + (c1 - d1) = 0
-    let a = a1 / 2;
-    let b = b1 - a1 / 2;
-    let c = c1 - d1;
-    let solution = Math.floor((-b + Math.sqrt(Math.pow(b, 2) - 4 * a * c)) / (2 * a)) + 1;
-    if (solution <= 0) {
+    let a1 = Math.log10(player.tickSpeedMultDecrease);
+    let b1 = player.tickspeedMultiplier.log(10);
+    let c1 = player.money.log(10) - player.tickSpeedCost.log(10);
+    let toBuy = arithmeticSequencePurchases(a1, b1, c1, -1);
+    if (toBuy.amount < 0) {
         return bought;
     }
-    player.tickSpeedCost = player.tickSpeedCost.times(player.tickspeedMultiplier.pow(solution - 1).times(
-      Decimal.pow(player.tickSpeedMultDecrease, (solution - 1) * (solution - 2) / 2)));
-    player.tickspeedMultiplier = player.tickspeedMultiplier.times(Decimal.pow(player.tickSpeedMultDecrease, solution - 1));
-    giveBoostFromTickSpeedUpgrades(solution)
+    player.tickSpeedCost = player.tickSpeedCost.times(Decimal.pow(10, toBuy.cost));
+    player.tickspeedMultiplier = player.tickspeedMultiplier.times(Decimal.pow(player.tickSpeedMultDecrease, toBuy.amount));
+    giveBoostFromTickSpeedUpgrades(toBuy.amount + 1)
     player.money = player.money.minus(player.tickSpeedCost)
     player.tickSpeedCost = player.tickSpeedCost.times(player.tickspeedMultiplier);
     player.tickspeedMultiplier = player.tickspeedMultiplier.times(player.tickSpeedMultDecrease);
@@ -4434,19 +4456,6 @@ function getReplicantiGalaxyCostIncrease () {
   return Decimal.pow(1e5, player.replicanti.gal).times(1e20);
 }
 
-function getReplicantiGalaxyBuyMaxInfo () {
-  // costs are 170, 195, etc.
-  // extrapolating, we see that the first cost would be 120.
-  // the true zero point is 119.375.
-  // -1 at 135
-  // 0 at 150
-  // 1 at 170
-  let totalAmount = Math.floor(Math.sqrt((player.infinityPoints.log(10) - 119.375) * 8 / 5) / 2 - 3.5);
-  let amount = totalAmount - player.replicanti.gal;
-  let cost = Decimal.pow(10, 150 + totalAmount * 17.5 + Math.pow(totalAmount, 2) * 2.5);
-  return {amount: amount, cost: cost}
-}
-
 function upgradeReplicantiGalaxy() {
     if (canGetReplGal()) {
         player.infinityPoints = player.infinityPoints.minus(player.replicanti.galCost)
@@ -4460,10 +4469,17 @@ function upgradeReplicantiGalaxy() {
 
 function maxUpgradeReplicantiGalaxy() {
     if (canGetReplGal()) {
-        let buy = getReplicantiGalaxyBuyMaxInfo();
-        player.infinityPoints = player.infinityPoints.minus(buy.cost);
-        player.replicanti.gal += buy.amount;
-        player.replicanti.galCost = buy.cost.times(getReplicantiGalaxyCostIncrease());
+        let a1 = 5;
+        let b1 = getReplicantiGalaxyCostIncrease().log(10);
+        let c1 = player.infinityPoints.log(10) - player.replicanti.galCost.log(10);
+        let toBuy = arithmeticSequencePurchases(a1, b1, c1, -1);
+        if (toBuy < 0) {
+            return;
+        }
+        player.replicanti.galCost = player.replicanti.galCost.times(Decimal.pow(10, toBuy.cost))
+        player.infinityPoints = player.infinityPoints.minus(player.replicanti.galCost);
+        player.replicanti.gal += toBuy.amount + 1;
+        player.replicanti.galCost = player.replicanti.galCost.times(getReplicantiGalaxyCostIncrease());
         updateInfCosts()
         // player.ec8.PurchasesMade.repl++;
         // ec8Update('repl');
@@ -5197,6 +5213,7 @@ function galaxyReset() {
         infinityPoints: player.infinityPoints,
         infinitied: player.infinitied,
         bankedInfinities: player.bankedInfinities,
+        bankedEternities: player.bankedEternities,
         totalTimePlayed: player.totalTimePlayed,
         bestInfinityTime: player.bestInfinityTime,
         thisInfinityTime: player.thisInfinityTime,
@@ -6275,6 +6292,7 @@ document.getElementById("bigcrunch").onclick = function () {
         infinityPoints: player.infinityPoints,
         infinitied: player.infinitied + infinityGain,
         bankedInfinities: player.bankedInfinities,
+        bankedEternities: player.bankedEternities,
         totalTimePlayed: player.totalTimePlayed,
         bestInfinityTime: Math.min(player.bestInfinityTime, player.thisInfinityTime),
         thisInfinityTime: 0,
@@ -6597,6 +6615,7 @@ function eternity(force, enteringChallenge) {
             infinityPoints: new Decimal(0),
             infinitied: 0,
             bankedInfinities: player.bankedInfinities + Math.floor(player.infinitied * getTSBenefit(8, player.timestudy.studies[8]) / 100),
+            bankedEternities: player.bankedEternities,
             totalTimePlayed: player.totalTimePlayed,
             bestInfinityTime: 9999999999,
             thisInfinityTime: 0,
@@ -6927,6 +6946,7 @@ function intergalaxy(force) {
             infinityPoints: new Decimal(0),
             infinitied: 0,
             bankedInfinities: 0,
+            bankedEternities: player.bankedEternities,
             totalTimePlayed: player.totalTimePlayed,
             bestInfinityTime: 9999999999,
             thisInfinityTime: 0,
@@ -7302,6 +7322,7 @@ function startChallenge(name, target) {
       infinityPoints: player.infinityPoints,
       infinitied: player.infinitied,
       bankedInfinities: player.bankedInfinities,
+      bankedEternities: player.bankedEternities,
       totalTimePlayed: player.totalTimePlayed,
       bestInfinityTime: player.bestInfinityTime,
       thisInfinityTime: 0,
@@ -7493,15 +7514,12 @@ function getTotalTickGained (timeshards, num) {
   if (timeshards.lt(1)) {
     return 0;
   }
-  let timeshardLn = timeshards.ln();
-  let c = get_c(num);
-  // we know that ln(1.001) * (x - 1) * x / 2 + ln(c) * x <= timeshardLn
-  // so ln(1.001) / 2 * x^2 + (ln(c) - ln(1.001) / 2) * x - timeshardLn <= 0
-  let a = Math.log(1.001) / 2;
-  let b = Math.log(c) - a;
-  let solution = (-b + Math.sqrt(Math.pow(b, 2) + 4 * a * timeshardLn)) / (2 * a);
-  let realSolution = Math.floor(solution) + 1
-  return realSolution;
+  // the way this works: act as if we were buying everything from scratch. say
+  // "how many could we buy? OK, we've already bought some, but just add 1."
+  let a1 = Math.log10(1.001);
+  let b1 = Math.log10(get_c());
+  let c1 = timeshards.log(10);
+  return arithmeticSequencePurchases(a1, b1, c1, -1) + 1;
 }
 
 function updateTimeShards() {
@@ -8443,22 +8461,40 @@ function dimBoolean() {
 
 
 function maxBuyGalaxies() {
-    while(player.eightAmount >= getGalaxyRequirement()) {
-        player.galaxies+=1
+    // the two off-by-one errors cancel each other out
+    let amount = player[TIER_NAMES[maxTier()]+"Amount"];
+    let galaxyChange = Math.floor((amount - getGalaxyRequirement()) / galaxyIncrement);
+    if (galaxyChange < 0) {
+        return false;
     }
-    player.galaxies-=1
-    galaxyReset()
-
+    player.galaxies += galaxyChange;
+    galaxyReset();
+    return true;
 }
 
 function maxBuyDimBoosts() {
     var r = 0;
-    while(player[TIER_NAMES[getShiftRequirement(0).tier]+"Amount"] >= getShiftRequirement(0).amount) {
+    let max = maxTier();
+    while (true) {
+        let req = getShiftRequirement(0);
+        let amount = Math.round(player[TIER_NAMES[req.tier]+"Amount"].toNumber());
+        if (req.tier === max) {
+            newResets = 1 + Math.floor((amount - req.amount) / getDimboostCostIncrease());
+            player.resets += newResets;
+            r += newResets;
+        }
+        if (amount <= req.amount) {
+            break;
+        }
         player.resets++;
         r++;
     }
+    if (r === 0) {
+        return false;
+    }
     if (r >= 750) giveAchievement("Costco sells dimboosts now")
     softReset(0, true);
+    return true;
 }
 
 var timer = 0
