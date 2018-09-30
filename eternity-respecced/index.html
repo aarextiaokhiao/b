@@ -765,8 +765,8 @@
             </div>
             <div id="galacticdimensions" class="dimtab">
                     <div>
-                        <p id="totalgalaxiesgained">You've gained 0 intergalactic galaxies.</p>
-                            <p>You have <span id="galacticPowerAmount" style="font-size:35px; color: black">0</span> intergalactic galaxies. Next intergalactic galaxy at <span id="galaxyThreshold" style="font-size:35px; color: black">0</span></p>
+                        <p id="totalgalaxiesgained">You've gained 0 extragalactic galaxies.</p>
+                            <p>You have <span id="galacticPowerAmount" style="font-size:35px; color: black">0</span> extragalactic galaxies. Next extragalactic galaxy at <span id="galaxyThreshold" style="font-size:35px; color: black">0</span></p>
                         </div>
 
                         <div id="galacticPowerPerSec">You are getting 0 Galactic Power per second.</div>
@@ -777,13 +777,13 @@
                                     <button id="galdimupg1" class="galacticupbtn" onclick="buyGalacticUpgrade(1)">Double all galactic dimension multipliers<br>Cost: x galactic power</button>
                                 </td>
                                 <td>
-                                    <button id="galdimupg2" class="galacticupbtn" onclick="buyGalacticUpgrade(2)">Decrease intergalactic galaxy cost multiplier<br>Intergalactic galaxies: x -> x<br>Cost: x galactic power</button>
+                                    <button id="galdimupg2" class="galacticupbtn" onclick="buyGalacticUpgrade(2)">Decrease extragalactic galaxy cost multiplier<br>Extragalactic galaxies: x -> x<br>Cost: x galactic power</button>
                                 </td>
                                 <td>
-                                    <button id="galdimupg3" class="galacticupbtn" onclick="buyGalacticUpgrade(3)">Multiply all galactic dimensions based on intergalactic galaxies<br>Additional multiplier: x<br>Cost: x galactic power</button>
+                                    <button id="galdimupg3" class="galacticupbtn" onclick="buyGalacticUpgrade(3)">Multiply all galactic dimensions based on extragalactic galaxies<br>Additional multiplier: x<br>Cost: x galactic power</button>
                                 </td>
                                 <td>
-                                    <button id="galdimupg4" class="galacticupbtn" onclick="buyGalacticUpgrade(4)">Increase GP formula base based on intergalactic galaxies<br>Currently: x -> x<br>Cost: x galactic power</button>
+                                    <button id="galdimupg4" class="galacticupbtn" onclick="buyGalacticUpgrade(4)">Increase GP formula base based on extragalactic galaxies<br>Currently: x -> x<br>Cost: x galactic power</button>
                                 </td>
                             </tr>
                         </table>
@@ -862,7 +862,7 @@
                 <tr>
                     <td><div><button id="eternityconf" onclick="toggleEternityConf()" class="storebtn" style="color:black; width: 200px; height: 55px; font-size:120%; display: none">Eternity confimation ON</button></div></td>
                     <td><div><button id="hotkeys" onclick="toggleHotkeys()" class="storebtn" style="color:black; width: 200px; height: 55px; font-size:120%">Disable hotkeys</button></div></td>
-                    <td><div><button id="intergalaxyconf" onclick="toggleIntergalaxyConf()" class="storebtn" style="color:black; width: 200px; height: 55px; font-size:120%; display: none">Intergalaxy confimation ON</button></div></td>
+                    <td><div><button id="extragalaxyconf" onclick="toggleExtragalaxyConf()" class="storebtn" style="color:black; width: 200px; height: 55px; font-size:120%; display: none">Extragalaxy confimation ON</button></div></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -895,7 +895,7 @@
                 <td><button class="secondarytabbtn" onclick="showStatsTab('infchallengetimes')" id="infchallengesbtn" style="display:none">InfChallenge records</button><td>
                 <td><button class="secondarytabbtn" onclick="showStatsTab('lasttenruns')" id="pastinfs" style="display:none">Past Infinities</button><td>
                 <td><button class="secondarytabbtn" onclick="showStatsTab('lastteneternities')" id="pasteternities" >Past Eternities</button><td>
-                  <td><button class="secondarytabbtn" onclick="showStatsTab('lasttenintergalaxies')" id="pastintergalaxies" >Past Eternities</button><td>
+                  <td><button class="secondarytabbtn" onclick="showStatsTab('lasttenextragalaxies')" id="pastextragalaxies" >Past Extragalaxies</button><td>
             </tr>
             <div id="stats" class="statstab">
             <br>
@@ -972,19 +972,19 @@
                     <div id="averageEternityRun"></div>
                     <br>
             </div>
-            <div id="lasttenintergalaxies" class="statstab">
-                    <div id="intergalaxyrun1"></div>
-                    <div id="intergalaxyrun2"></div>
-                    <div id="intergalaxyrun3"></div>
-                    <div id="intergalaxyrun4"></div>
-                    <div id="intergalaxyrun5"></div>
-                    <div id="intergalaxyrun6"></div>
-                    <div id="intergalaxyrun7"></div>
-                    <div id="intergalaxyrun8"></div>
-                    <div id="intergalaxyrun9"></div>
-                    <div id="intergalaxyrun10"></div>
+            <div id="lasttenextragalaxies" class="statstab">
+                    <div id="extragalaxyrun1"></div>
+                    <div id="extragalaxyrun2"></div>
+                    <div id="extragalaxyrun3"></div>
+                    <div id="extragalaxyrun4"></div>
+                    <div id="extragalaxyrun5"></div>
+                    <div id="extragalaxyrun6"></div>
+                    <div id="extragalaxyrun7"></div>
+                    <div id="extragalaxyrun8"></div>
+                    <div id="extragalaxyrun9"></div>
+                    <div id="extragalaxyrun10"></div>
                     <br>
-                    <div id="averageIntergalaxyRun"></div>
+                    <div id="averageExtragalaxyRun"></div>
                     <br>
             </div>
         </div>
@@ -1319,10 +1319,10 @@
                             <div id="Definitely not safe" class="achievement achievementlocked" style="background-image: url(images/92.png)" ach-tooltip="Get replicanti interval below 0.001 ms. Reward: You can buy more than 1 replicanti galaxy at a time, but more replicanti galaxies require more replicanti."><br></div>
                         </td>
                         <td>
-                            <div id="The void" class="achievement achievementlocked" style="background-image: url(images/93.png)" ach-tooltip="Go intergalactic."><br></div>
+                            <div id="The void" class="achievement achievementlocked" style="background-image: url(images/93.png)" ach-tooltip="Go extragalactic."><br></div>
                         </td>
                         <td>
-                            <div id="Universal harmony" class="achievement achievementlocked" style="background-image: url(images/94.png)" ach-tooltip="Have the same number (at least 100) of normal galaxies, replicanti galaxies, and intergalactic galaxies. Reward: All galaxies are 0.1% stronger."><br></div>
+                            <div id="Universal harmony" class="achievement achievementlocked" style="background-image: url(images/94.png)" ach-tooltip="Have the same number (at least 100) of normal galaxies, replicanti galaxies, and extragalactic galaxies. Reward: All galaxies are 0.1% stronger."><br></div>
                         </td>
                         <td>
                             <div id="24 dimensions and none of them ninth..." class="achievement achievementlocked" style="background-image: url(images/95.png)" ach-tooltip="Buy the fourth galactic dimension."><br></div>
@@ -2454,6 +2454,7 @@
                   <br>
                   Replicanti needed to get a galaxy: <input type="text" onchange="setReplicantiNewLimit()" id="replLimit"></input>
                 </div>
+                Hey I'm put here so that the game runs, I should be in a tab that doesn't yet exist, if I get further than dev there's an issue: <input type="text" id="bulkantigalaxies"></input>
             </div>
         </div>
 

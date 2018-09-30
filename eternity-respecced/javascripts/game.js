@@ -85,7 +85,7 @@ var player = {
     infchallengeTimes: [600*60*24*31, 600*60*24*31, 600*60*24*31, 600*60*24*31, 600*60*24*31, 600*60*24*31, 600*60*24*31, 600*60*24*31],
     lastTenRuns: [[600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1]],
     lastTenEternities: [[600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1]],
-    lastTenIntergalaxies: [[600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1]],
+    lastTenExtragalaxies: [[600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1]],
     infMult: new Decimal(1),
     infMultCost: new Decimal(10),
     tickSpeedMultDecrease: 10,
@@ -237,9 +237,9 @@ var player = {
         limit: new Decimal(0),
         isOn: false
     },
-    intergalactic: {
+    extragalactic: {
         points: new Decimal(0),
-        intergalaxies: 0,
+        extragalaxies: 0,
         galacticPower: new Decimal(0),
         galacticDimension1: {
             cost: new Decimal(1),
@@ -285,9 +285,9 @@ var player = {
           upgradeCosts: [new Decimal(10), new Decimal(10)],
           upgradeCostMults: [new Decimal(10), new Decimal(10)]
         },
-        thisIntergalaxy: 0,
-        bestIntergalaxy: 9999999999,
-        intergalaxyBuyer: {
+        thisExtragalaxy: 0,
+        bestExtragalaxy: 9999999999,
+        extragalaxyBuyer: {
             limit: new Decimal(0),
             isOn: false
         }
@@ -320,7 +320,7 @@ var player = {
         hotkeys: true,
         theme: undefined,
         eternityconfirm: true,
-        intergalaxyconfirm: true,
+        extragalaxyconfirm: true,
         commas: true,
         cheat: false
     }
@@ -532,7 +532,7 @@ function onLoad() {
     if (player.options.bulkOn === undefined) player.options.bulkOn = true
     if (player.options.hotkeys === undefined) player.options.hotkeys = true
     if (player.options.eternityconfirm === undefined) player.options.eternityconfirm = true
-    if (player.options.intergalaxyconfirm === undefined) player.options.intergalaxyconfirm = true
+    if (player.options.extragalaxyconfirm === undefined) player.options.extragalaxyconfirm = true
     if (player.options.customNotation === undefined) player.options.customNotation = '';
     if (player.options.customNotationName === undefined) player.options.customNotationName = 'Custom';
     if (player.achievements === undefined) player.achievements = [];
@@ -583,7 +583,7 @@ function onLoad() {
         if (player.currentChallenge != "") player.challengeTarget = Number.MAX_VALUE
     }
     if (player.lastTenEternities === undefined) player.lastTenEternities = [[600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1]]
-    if (player.lastTenIntergalaxies === undefined) player.lastTenIntergalaxies = [[600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1]]
+    if (player.lastTenExtragalaxies === undefined) player.lastTenExtragalaxies = [[600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1], [600*60*24*31, 1]]
     if (player.respec === undefined) player.respec = false
     if (player.options.commas === undefined) player.options.commas = true
 
@@ -675,11 +675,11 @@ function onLoad() {
         player.autoEterMode = 'amount';
     }
 
-    // no need to update best or current intergalaxy apart from this
-    if (player.intergalactic === undefined) {
-        player.intergalactic = {
+    // no need to update best or current extragalaxy apart from this
+    if (player.extragalactic === undefined) {
+        player.extragalactic = {
             points: new Decimal(0),
-            intergalaxies: 0,
+            extragalaxies: 0,
             galacticPower: new Decimal(0),
             galacticDimension1: {
                 cost: new Decimal(1),
@@ -725,9 +725,9 @@ function onLoad() {
               upgradeCosts: [new Decimal(10), new Decimal(10)],
               upgradeCostMults: [new Decimal(10), new Decimal(10)]
             },
-            thisIntergalaxy: 0,
-            bestIntergalaxy: 9999999999,
-            intergalaxyBuyer: {
+            thisExtragalaxy: 0,
+            bestExtragalaxy: 9999999999,
+            extragalaxyBuyer: {
                 limit: new Decimal(0),
                 isOn: false
             }
@@ -1014,7 +1014,7 @@ function onLoad() {
     loadAutoBuyerSettings();
     updateLastTenRuns()
     updateLastTenEternities()
-    updateLastTenIntergalaxies()
+    updateLastTenExtragalaxies()
 
     updateInfCosts()
 
@@ -1180,7 +1180,7 @@ function transformSaveToDecimal() {
     for (var i=0; i<10; i++) {
         player.lastTenRuns[i][1] = new Decimal(player.lastTenRuns[i][1])
         player.lastTenEternities[i][1] = new Decimal(player.lastTenEternities[i][1])
-        player.lastTenIntergalaxies[i][1] = new Decimal(player.lastTenIntergalaxies[i][1])
+        player.lastTenExtragalaxies[i][1] = new Decimal(player.lastTenExtragalaxies[i][1])
     }
     player.lastTenRuns = [[parseFloat(player.lastTenRuns[0][0]), player.lastTenRuns[0][1]], [parseFloat(player.lastTenRuns[1][0]), player.lastTenRuns[1][1]], [parseFloat(player.lastTenRuns[2][0]), player.lastTenRuns[2][1]],
     [parseFloat(player.lastTenRuns[3][0]), player.lastTenRuns[3][1]], [parseFloat(player.lastTenRuns[4][0]), player.lastTenRuns[4][1]], [parseFloat(player.lastTenRuns[5][0]), player.lastTenRuns[5][1]],
@@ -1206,9 +1206,9 @@ function transformSaveToDecimal() {
     }
 
     for (var i=1; i<=4; i++) {
-        player.intergalactic["galacticDimension"+i].amount = new Decimal(player.intergalactic["galacticDimension"+i].amount)
-        player.intergalactic["galacticDimension"+i].cost = new Decimal(player.intergalactic["galacticDimension"+i].cost)
-        player.intergalactic["galacticDimension"+i].power = new Decimal(player.intergalactic["galacticDimension"+i].power)
+        player.extragalactic["galacticDimension"+i].amount = new Decimal(player.extragalactic["galacticDimension"+i].amount)
+        player.extragalactic["galacticDimension"+i].cost = new Decimal(player.extragalactic["galacticDimension"+i].cost)
+        player.extragalactic["galacticDimension"+i].power = new Decimal(player.extragalactic["galacticDimension"+i].power)
     }
 
     player.infMultCost = new Decimal(player.infMultCost)
@@ -1226,21 +1226,21 @@ function transformSaveToDecimal() {
     player.epmultCost = new Decimal(player.epmultCost);
     player.eternityBuyer.limit = new Decimal(player.eternityBuyer.limit);
 
-    player.intergalactic.points = new Decimal(player.intergalactic.points);
+    player.extragalactic.points = new Decimal(player.extragalactic.points);
 
-    player.intergalactic.galacticPower = new Decimal(player.intergalactic.galacticPower);
+    player.extragalactic.galacticPower = new Decimal(player.extragalactic.galacticPower);
 
     for (let i = 0; i < 4; i++) {
-        player.intergalactic.galacticDimensionUpgradeCosts[i] = new Decimal(player.intergalactic.galacticDimensionUpgradeCosts[i]);
-        player.intergalactic.galacticDimensionUpgradeCostMults[i] = new Decimal(player.intergalactic.galacticDimensionUpgradeCostMults[i]);
+        player.extragalactic.galacticDimensionUpgradeCosts[i] = new Decimal(player.extragalactic.galacticDimensionUpgradeCosts[i]);
+        player.extragalactic.galacticDimensionUpgradeCostMults[i] = new Decimal(player.extragalactic.galacticDimensionUpgradeCostMults[i]);
     }
 
     for (let i = 0; i < 2; i++) {
-        player.intergalactic.galacticstudy.upgradeCosts[i] = new Decimal(player.intergalactic.galacticstudy.upgradeCosts[i]);
-        player.intergalactic.galacticstudy.upgradeCostMults[i] = new Decimal(player.intergalactic.galacticstudy.upgradeCostMults[i]);
+        player.extragalactic.galacticstudy.upgradeCosts[i] = new Decimal(player.extragalactic.galacticstudy.upgradeCosts[i]);
+        player.extragalactic.galacticstudy.upgradeCostMults[i] = new Decimal(player.extragalactic.galacticstudy.upgradeCostMults[i]);
     }
 
-    player.intergalactic.intergalaxyBuyer.limit = new Decimal(player.intergalactic.intergalaxyBuyer.limit);
+    player.extragalactic.extragalaxyBuyer.limit = new Decimal(player.extragalactic.extragalaxyBuyer.limit);
 
     player.peaks.ip.perMin = new Decimal(player.peaks.ip.perMin);
     player.peaks.ip.total = new Decimal(player.peaks.ip.total);
@@ -1918,10 +1918,10 @@ function updateDimensions() {
     document.getElementById("eter9").innerHTML = "Infinity and eternity production is boosted by infinities plus eternities<br>(floor((x / "+shortenCosts(2e7)+")^0.5))<br>Currently: "+shortenCosts(eter9Upg())+"x<br>Cost: "+shortenCosts(new Decimal('1e2000'))+" EP"
 
     updateGalacticUpgrades();
-    document.getElementById("galdimupg1").innerHTML = "Double all galactic dimension multipliers<br>Cost: "+shortenCosts(player.intergalactic.galacticDimensionUpgradeCosts[0])+" galactic power";
-    document.getElementById("galdimupg2").innerHTML = "Decrease intergalactic galaxy cost multiplier<br>Intergalactic galaxies: "+getTotalIntergalacticGalaxiesGained()+" -> "+getTotalIntergalacticGalaxiesGained(1)+"<br>Cost: "+shortenCosts(player.intergalactic.galacticDimensionUpgradeCosts[1])+" galactic power";
-    document.getElementById("galdimupg3").innerHTML = "Multiply all galactic dimensions based on intergalactic galaxies<br>Additional multiplier: "+shorten(multiplierPerGalacticUpgrade3())+"<br>Cost: "+shortenCosts(player.intergalactic.galacticDimensionUpgradeCosts[2])+" galactic power"
-    document.getElementById("galdimupg4").innerHTML = "Increase GP formula base based on intergalactic galaxies<br>Currently: "+shorten(getIntergalacticPointBase())+" -> "+shorten(getIntergalacticPointBase(1))+"<br>Cost: "+shortenCosts(player.intergalactic.galacticDimensionUpgradeCosts[3])+" galactic power";
+    document.getElementById("galdimupg1").innerHTML = "Double all galactic dimension multipliers<br>Cost: "+shortenCosts(player.extragalactic.galacticDimensionUpgradeCosts[0])+" galactic power";
+    document.getElementById("galdimupg2").innerHTML = "Decrease extragalactic galaxy cost multiplier<br>Extragalactic galaxies: "+getTotalExtragalacticGalaxiesGained()+" -> "+getTotalExtragalacticGalaxiesGained(1)+"<br>Cost: "+shortenCosts(player.extragalactic.galacticDimensionUpgradeCosts[1])+" galactic power";
+    document.getElementById("galdimupg3").innerHTML = "Multiply all galactic dimensions based on extragalactic galaxies<br>Additional multiplier: "+shorten(multiplierPerGalacticUpgrade3())+"<br>Cost: "+shortenCosts(player.extragalactic.galacticDimensionUpgradeCosts[2])+" galactic power"
+    document.getElementById("galdimupg4").innerHTML = "Increase GP formula base based on extragalactic galaxies<br>Currently: "+shorten(getExtragalacticPointBase())+" -> "+shorten(getExtragalacticPointBase(1))+"<br>Cost: "+shortenCosts(player.extragalactic.galacticDimensionUpgradeCosts[3])+" galactic power";
     displayAllECRewards();
     checkAllECUnlockStatuses();
 }
@@ -2239,17 +2239,16 @@ function makePurchase (currency, initial, increase, max) {
   }
   let cost = initial.times(Decimal.pow(increase, amount - 1)).times(
     extraFactor.plus(1)).minus(alreadyBought);
+  if (amount <= 0) {
+    cost = new Decimal(0);
+  }
   if (isNaN(amount)) {
     throw new Error('Number of purchases is NaN! Some debug data: ' + [currency, initial, increase, amount, cost].join(', '));
   }
   if (cost.gt(currency)) {
     throw new Error('Cost is greater than currency. Some debug data: ' + [currency, initial, increase, amount, cost].join(', '))
   }
-  if (amount <= 0) {
-    return {amount: 0, cost: new Decimal(0)};
-  } else {
-    return {amount: amount, cost: cost};
-  }
+  return {amount: amount, cost: cost};
 }
 
 function buyMaxInfDims(tier) {
@@ -2426,7 +2425,6 @@ function buyMaxTimeDimensions () {
     var dim = player["timeDimension"+tier];
     let buy = makePurchase(player.eternityPoints, dim.cost, timeDimCostMults[tier])
     if (buy.amount === 0) continue;
-    console.log(buy.amount);
     player.eternityPoints = player.eternityPoints.minus(buy.cost);
     dim.amount = dim.amount.plus(buy.amount);
     dim.bought += buy.amount;
@@ -2447,17 +2445,17 @@ function resetTimeDimensions() {
 // small subsection devoted to galactic Upgrades
 
 function canBuyGalacticUpgrade(name) {
-    let cost = player.intergalactic.galacticDimensionUpgradeCosts[name - 1];
-    return player.intergalactic.galacticPower.gte(cost) && !hasGalacticStudies();
+    let cost = player.extragalactic.galacticDimensionUpgradeCosts[name - 1];
+    return player.extragalactic.galacticPower.gte(cost) && !hasGalacticStudies();
 }
 
 function buyGalacticUpgrade(name) {
     if (canBuyGalacticUpgrade(name)) {
-        let cost = player.intergalactic.galacticDimensionUpgradeCosts[name - 1];
-        player.intergalactic.galacticPower = player.intergalactic.galacticPower.minus(cost);
-        player.intergalactic.galacticDimensionUpgrades[name - 1]++;
-        player.intergalactic.galacticDimensionUpgradeCosts[name - 1] = cost.times(player.intergalactic.galacticDimensionUpgradeCostMults[name - 1]);
-        player.intergalactic.totalGalacticDimensionUpgrades++;
+        let cost = player.extragalactic.galacticDimensionUpgradeCosts[name - 1];
+        player.extragalactic.galacticPower = player.extragalactic.galacticPower.minus(cost);
+        player.extragalactic.galacticDimensionUpgrades[name - 1]++;
+        player.extragalactic.galacticDimensionUpgradeCosts[name - 1] = cost.times(player.extragalactic.galacticDimensionUpgradeCostMults[name - 1]);
+        player.extragalactic.totalGalacticDimensionUpgrades++;
     }
 }
 
@@ -2470,29 +2468,29 @@ function updateGalacticUpgrades () {
 // end galactic upgrades
 
 function multiplierPerGalacticUpgrade3 () {
-    return Math.sqrt(Math.max(1, Math.log2(player.intergalactic.galaxies)));
+    return Math.sqrt(Math.max(1, Math.log2(player.extragalactic.galaxies)));
 }
 
 function getGalacticDimensionPower(tier) {
-  let dim = player.intergalactic["galacticDimension" + tier];
+  let dim = player.extragalactic["galacticDimension" + tier];
   let ret = dim.power;
-  ret = ret.times(Decimal.pow(2, player.intergalactic.galacticDimensionUpgrades[0]));
-  ret = ret.times(Decimal.pow(multiplierPerGalacticUpgrade3(), player.intergalactic.galacticDimensionUpgrades[2]));
-  ret = ret.times(Decimal.pow(1.05, player.intergalactic.totalGalacticDimensionUpgrades));
+  ret = ret.times(Decimal.pow(2, player.extragalactic.galacticDimensionUpgrades[0]));
+  ret = ret.times(Decimal.pow(multiplierPerGalacticUpgrade3(), player.extragalactic.galacticDimensionUpgrades[2]));
+  ret = ret.times(Decimal.pow(1.05, player.extragalactic.totalGalacticDimensionUpgrades));
   if (ret.lt(1)) {ret = new Decimal(1)}
   return ret;
 }
 
 
 function getGalacticDimensionProduction(tier) {
-    var dim = player.intergalactic["galacticDimension"+tier]
+    var dim = player.extragalactic["galacticDimension"+tier]
     var ret = dim.amount.times(getPower(tier))
     return ret;
 }
 
 function getGalacticDimensionRateOfChange(tier) {
     let toGain = getGalacticDimensionProduction(tier+1)
-    var current = Decimal.max(player.intergalactic["galacticDimension"+tier].amount, 1);
+    var current = Decimal.max(player.extragalactic["galacticDimension"+tier].amount, 1);
     var change  = toGain.times(10).dividedBy(current);
     return change;
 }
@@ -2500,7 +2498,7 @@ function getGalacticDimensionRateOfChange(tier) {
 function getGalacticDimensionDescription(tier) {
     var name = TIER_NAMES[tier];
 
-    let description = shortenDimensions(player.intergalactic['galacticDimension'+tier].amount);
+    let description = shortenDimensions(player.extragalactic['galacticDimension'+tier].amount);
 
     if (tier < 4) {
         description += '  (+' + formatValue(player.options.notation, getGalacticDimensionRateOfChange(tier), 2, 2) + '%/s)';
@@ -2519,9 +2517,9 @@ function updateGalacticDimensions() {
 var galacticDimCostMults = [null, 2, 4, 8, 16];
 
 function buyGalacticDimension(tier) {
-    var dim = player.intergalactic["galacticDimension"+tier]
-    if (player.intergalactic.points.lt(dim.cost)) return false
-    player.intergalactic.points = player.intergalactic.points.minus(dim.cost)
+    var dim = player.extragalactic["galacticDimension"+tier]
+    if (player.extragalactic.points.lt(dim.cost)) return false
+    player.extragalactic.points = player.extragalactic.points.minus(dim.cost)
     dim.amount = dim.amount.plus(1);
     dim.bought += 1
     dim.cost = Decimal.pow(100, tier - 1).times(Decimal.pow(galacticDimCostMults[tier], dim.bought))
@@ -2531,11 +2529,11 @@ function buyGalacticDimension(tier) {
 
 function buyMaxGalacticDimensions () {
   for (var tier = 1; tier <= 4; tier++) {
-    var dim = player.intergalactic["galacticDimension"+tier];
-    let buy = makePurchase(player.intergalactic.points, dim.cost, galacticDimCostMults[tier])
+    var dim = player.extragalactic["galacticDimension"+tier];
+    let buy = makePurchase(player.extragalactic.points, dim.cost, galacticDimCostMults[tier])
     if (buy.amount === 0) continue;
     console.log(buy.amount);
-    player.intergalactic.points = player.intergalactic.points.minus(buy.cost);
+    player.extragalactic.points = player.extragalactic.points.minus(buy.cost);
     dim.amount = dim.amount.plus(buy.amount);
     dim.bought += buy.amount;
     dim.cost = Decimal.pow(100, tier - 1).times(Decimal.pow(galacticDimCostMults[tier], dim.bought))
@@ -2545,7 +2543,7 @@ function buyMaxGalacticDimensions () {
 
 function resetGalacticDimensions() {
     for (var i = 1; i <= 4; i++) {
-        var dim = player.intergalactic["galacticDimension"+i]
+        var dim = player.extragalactic["galacticDimension"+i]
         dim.amount = new Decimal(dim.bought)
     }
 }
@@ -2797,17 +2795,17 @@ let galacticStudyTableSize = 4;
 function getGalacticStudyCost (i) {
   let ret = 1;
   for (let j = 1; j <= galacticStudyTableSize; j++) {
-    ret += player.intergalactic.galacticstudy.studies[j + i[1]];
-    ret += player.intergalactic.galacticstudy.studies[i[0] + j];
+    ret += player.extragalactic.galacticstudy.studies[j + i[1]];
+    ret += player.extragalactic.galacticstudy.studies[i[0] + j];
   }
   return ret;
 }
 
 // They should never disappear. Galactic studies tab should be like time studies tab.
 function updateGalacticStudyButtons () {
-  for (let i in player.intergalactic.galacticstudy.studies) {
+  for (let i in player.extragalactic.galacticstudy.studies) {
     let t = document.getElementById('gs' + i);
-    if (player.intergalactic.galacticstudy.theorems >= getGalacticStudyCost(i) && studyHasBeenUnlocked(i)) {
+    if (player.extragalactic.galacticstudy.theorems >= getGalacticStudyCost(i) && studyHasBeenUnlocked(i)) {
       t.className = "eternityttbtn"
     } else {
       t.className = "eternityttbtnlocked"
@@ -2821,17 +2819,17 @@ function updateGalacticStudyButtons () {
 
 function getBuyableGalacticStudies () {
     // Is this a hack? Maybe sort of?
-    return Math.max(0, getRegularGalaxiesNumber() - player.intergalactic.antigalaxies);
+    return Math.max(0, getRegularGalaxiesNumber() - player.extragalactic.antigalaxies);
 }
 
 function galacticTheoremsPerAntigalaxy () {
-    return player.intergalactic.galacticstudy.upgrades[1];
+    return player.extragalactic.galacticstudy.upgrades[1];
 }
 
 function buyOneGalacticStudy () {
   if (getBuyableGalacticStudies() >= 1) {
-    player.intergalactic.antigalaxies += 1;
-    player.intergalactic.galacticstudy.theorems += galacticTheoremsPerAntigalaxy();
+    player.extragalactic.antigalaxies += 1;
+    player.extragalactic.galacticstudy.theorems += galacticTheoremsPerAntigalaxy();
   }
 }
 
@@ -2841,29 +2839,29 @@ function setAntigalaxyBulk () {
     if (isNaN(bulk) || bulk < 1) {
         bulk = 1;
     }
-    player.intergalactic.galacticstudy.bulk = bulk;
+    player.extragalactic.galacticstudy.bulk = bulk;
 }
 
 function updateAntigalaxyBulk () {
-    document.getElementById("bulkantigalaxies").value = player.intergalactic.galacticstudy.bulk;
+    document.getElementById("bulkantigalaxies").value = player.extragalactic.galacticstudy.bulk;
 }
 
 function buyChosenGalacticStudies () {
-  let b = player.intergalactic.galacticstudy.bulk;
+  let b = player.extragalactic.galacticstudy.bulk;
   if (getBuyableGalacticStudies() >= b) {
-    player.intergalactic.antigalaxies += b;
-    player.intergalactic.galacticstudy.theorems += b * galacticTheoremsPerAntigalaxy();
+    player.extragalactic.antigalaxies += b;
+    player.extragalactic.galacticstudy.theorems += b * galacticTheoremsPerAntigalaxy();
   }
 }
 
 function buyMaxGalacticStudies () {
   let g = getBuyableGalacticStudies();
-  player.intergalactic.antigalaxies += g;
-  player.intergalactic.galacticstudy.theorems += g * galacticTheoremsPerAntigalaxy();
+  player.extragalactic.antigalaxies += g;
+  player.extragalactic.galacticstudy.theorems += g * galacticTheoremsPerAntigalaxy();
 }
 
 function updateGalacticTheoremButtons() {
-    let b = player.intergalactic.galacticstudy.bulk;
+    let b = player.extragalactic.galacticstudy.bulk;
     let g = getBuyableGalacticStudies();
     let per = galacticTheoremsPerAntigalaxy();
     document.getElementById("gtheoremone").className = (g >= 1) ? "galactictheorembtn" : "galactictheorembtnlocked"
@@ -2872,14 +2870,14 @@ function updateGalacticTheoremButtons() {
     document.getElementById("gtheoremone").innerHTML = 'Get 1 antigalaxy and ' + per + ' Galactic Theorem' + ((per === 1) ? '' : 's') + '.';
     document.getElementById("gtheoremchosen").innerHTML = 'Get ' + b + ' antigalax' + ((b === 1) ? 'y' : 'ies') + ' and ' + (b * per) + ' Galactic Theorem' + ((b * per === 1) ? '' : 's') + '.';
     document.getElementById("gtheoremmax").innerHTML = 'Get ' + g + ' antigalax' + ((g === 1) ? 'y' : 'ies') + ' and ' + (g * per) + ' Galactic Theorem' + ((g * per === 1) ? '' : 's') + '.';
-    document.getElementById("galactictheorems").innerHTML = "You have <span style='display:inline' class=\"GalacticTheoremAmount\">"+player.intergalactic.galacticstudy.theorem+"</span> unspent Galactic "+ (player.intergalactic.galacticstudy.theorem === 1 ? "Theorem." : "Theorems.")
+    document.getElementById("galactictheorems").innerHTML = "You have <span style='display:inline' class=\"GalacticTheoremAmount\">"+player.extragalactic.galacticstudy.theorem+"</span> unspent Galactic "+ (player.extragalactic.galacticstudy.theorem === 1 ? "Theorem." : "Theorems.")
 }
 
 function buyOneGalacticStudy (id) {
     let cost = getGalacticStudyCost(id);
-    if (player.intergalactic.galacticstudy.theorems >= cost) {
-        player.intergalactic.galacticstudy.studies[id] += 1;
-        player.intergalactic.galacticstudy.theorems -= cost;
+    if (player.extragalactic.galacticstudy.theorems >= cost) {
+        player.extragalactic.galacticstudy.studies[id] += 1;
+        player.extragalactic.galacticstudy.theorems -= cost;
         updateGalacticTheoremButtons()
         updateGalacticStudyButtons()
         return true;
@@ -2888,7 +2886,7 @@ function buyOneGalacticStudy (id) {
     }
 }
 
-function arithmeticSequencePurchases (cost, increase, remainingResource, minimumPurchases, maximumPurchases) {
+function arithmeticSequencePurchases (increase, costPer, remainingResource, minimumPurchases, maximumPurchases) {
     // increase * x * (x - 1) / 2 + cost * x - resource = 0
     // increase / 2 * x ** 2 + (cost - increase / 2) * x - remainingResource = 0
     if (minimumPurchases === undefined) {
@@ -2898,10 +2896,11 @@ function arithmeticSequencePurchases (cost, increase, remainingResource, minimum
         maximumPurchases = Infinity;
     }
     let a = increase / 2;
-    let b = cost - increase / 2;
+    let b = costPer - increase / 2;
+    // c has the opposite sign as usual.
     let c = remainingResource;
-    let amount = Math.min(maximumPurchases, Math.max(minimumPurchases, Math.floor((-b + Math.sqrt(Math.pow(b, 2) - 4 * a * c)) / (2 * a))));
-    let cost = increase * amount * (amount - 1) / 2 + cost * amount;
+    let amount = Math.min(maximumPurchases, Math.max(minimumPurchases, Math.floor((-b + Math.sqrt(Math.pow(b, 2) + 4 * a * c)) / (2 * a))));
+    let cost = increase * amount * (amount - 1) / 2 + costPer * amount;
     return {
         'amount': amount,
         'cost': cost
@@ -2909,9 +2908,9 @@ function arithmeticSequencePurchases (cost, increase, remainingResource, minimum
 }
 
 function buyManyGalacticStudy (id, x) {
-    let toBuy = arithmeticSequencePurchases(2, getGalacticStudyCost(id), player.intergalactic.galacticstudy.theorems);
-    player.intergalactic.galacticstudy.studies[id] += toBuy.amount;
-    player.intergalactic.galacticstudy.theorems -= toBuy.cost;
+    let toBuy = arithmeticSequencePurchases(2, getGalacticStudyCost(id), player.extragalactic.galacticstudy.theorems);
+    player.extragalactic.galacticstudy.studies[id] += toBuy.amount;
+    player.extragalactic.galacticstudy.theorems -= toBuy.cost;
     updateGalacticTheoremButtons()
     updateGalacticStudyButtons()
     return newAmount > 0;
@@ -3094,7 +3093,7 @@ function softReset(bulk, reallyZero) {
         infchallengeTimes: player.infchallengeTimes,
         lastTenRuns: player.lastTenRuns,
         lastTenEternities: player.lastTenEternities,
-        lastTenIntergalaxies: player.lastTenIntergalaxies,
+        lastTenExtragalaxies: player.lastTenExtragalaxies,
         infMult: player.infMult,
         infMultCost: player.infMultCost,
         tickSpeedMultDecrease: player.tickSpeedMultDecrease,
@@ -3148,7 +3147,7 @@ function softReset(bulk, reallyZero) {
         autoEterMode: player.autoEterMode,
         respec: player.respec,
         eternityBuyer: player.eternityBuyer,
-        intergalactic: player.intergalactic,
+        extragalactic: player.extragalactic,
         peaks: player.peaks,
         options: player.options
     };
@@ -3240,7 +3239,7 @@ function getNormalGalaxyMultiplier () {
   }
 }
 
-function postIntergalacticNerf (ret) {
+function postExtragalacticNerf (ret) {
     let exp = Math.min(1, Math.max(0.9, 26 / 25 + ret.log(Number.MAX_VALUE) / 25));
     return ret.pow(exp);
 }
@@ -3250,12 +3249,12 @@ function extraTickSpeedMultiplier() {
 }
 
 function getRegularGalaxiesNumber() {
-    return player.galaxies + player.replicanti.galaxies + player.intergalactic.galaxies;
+    return player.galaxies + player.replicanti.galaxies + player.extragalactic.galaxies;
 }
 
 function getTickSpeedMultiplier() {
     if (player.currentChallenge == "postc3") return new Decimal(1);
-    let totalGalaxies = (player.galaxies * getNormalGalaxyMultiplier() + player.replicanti.galaxies * getReplicantiGalaxyPower(player.replicanti.limit) + player.intergalactic.galaxies - player.intergalactic.antigalaxies) * getGalaxyMultiplier();
+    let totalGalaxies = (player.galaxies * getNormalGalaxyMultiplier() + player.replicanti.galaxies * getReplicantiGalaxyPower(player.replicanti.limit) + player.extragalactic.galaxies - player.extragalactic.antigalaxies) * getGalaxyMultiplier();
     let baseMultiplier = 0.9;
     // Be nice: give the extra 1% as long as the number of galaxies is at most 0.
     if (totalGalaxies <= 0) baseMultiplier = 0.89;
@@ -3267,7 +3266,7 @@ function getTickSpeedMultiplier() {
     let ret = Decimal.pow(0.965, totalGalaxies).times(baseMultiplier);
     // EC5 reward handled
     ret = ret.div(extraTickSpeedMultiplier());
-    ret = postIntergalacticNerf(ret);
+    ret = postExtragalacticNerf(ret);
     return ret;
 }
 
@@ -4960,13 +4959,13 @@ function toggleEternityConf() {
     }
 }
 
-function toggleIntergalaxyConf() {
-    if (player.options.intergalaxyconfirm) {
-        player.options.intergalaxyconfirm = false
-        document.getElementById("intergalaxyconf").innerHTML = "Intergalactic confimation OFF"
+function toggleExtragalaxyConf() {
+    if (player.options.extragalaxyconfirm) {
+        player.options.extragalaxyconfirm = false
+        document.getElementById("extragalaxyconf").innerHTML = "Extragalactic confimation OFF"
     } else {
-        player.options.intergalaxyconfirm = true
-        document.getElementById("intergalaxyconf").innerHTML = "Intergalactic confimation ON"
+        player.options.extragalaxyconfirm = true
+        document.getElementById("extragalaxyconf").innerHTML = "Extragalactic confimation ON"
     }
 }
 
@@ -5239,7 +5238,7 @@ function galaxyReset() {
         infchallengeTimes: player.infchallengeTimes,
         lastTenRuns: player.lastTenRuns,
         lastTenEternities: player.lastTenEternities,
-        lastTenIntergalaxies: player.lastTenIntergalaxies,
+        lastTenExtragalaxies: player.lastTenExtragalaxies,
         infMult: player.infMult,
         infMultCost: player.infMultCost,
         tickSpeedMultDecrease: player.tickSpeedMultDecrease,
@@ -5293,7 +5292,7 @@ function galaxyReset() {
         autoEterMode: player.autoEterMode,
         respec: player.respec,
         eternityBuyer: player.eternityBuyer,
-        intergalactic: player.intergalactic,
+        extragalactic: player.extragalactic,
         peaks: player.peaks,
         options: player.options
     };
@@ -6133,36 +6132,36 @@ function addEternityTime(time, ep) {
 }
 
 var averageGp = new Decimal(0)
-function updateLastTenIntergalaxies() {
+function updateLastTenExtragalaxies() {
     let tempBest = 0
     var tempTime = new Decimal(0)
     var tempGP = new Decimal(0)
     for (var i=0; i<10;i++) {
-        tempTime = tempTime.plus(player.lastTenIntergalaxies[i][0])
-        tempGP = tempGP.plus(player.lastTenIntergalaxies[i][1])
+        tempTime = tempTime.plus(player.lastTenExtragalaxies[i][0])
+        tempGP = tempGP.plus(player.lastTenExtragalaxies[i][1])
     }
     tempTime = tempTime.dividedBy(10)
     tempGP = tempGP.dividedBy(10)
     for (var i=0; i<10; i++) {
-        var gppm = player.lastTenIntergalaxies[i][1].dividedBy(player.lastTenIntergalaxies[i][0]/600)
+        var gppm = player.lastTenExtragalaxies[i][1].dividedBy(player.lastTenExtragalaxies[i][0]/600)
         if (gppm.gt(tempBest)) tempBest = gppm
         var tempstring = shorten(gppm) + " GP/min"
         if (gppm<1) tempstring = shorten(gppm*60) + " GP/hour"
-        document.getElementById("intergalaxyrun"+(i+1)).innerHTML = "The Intergalaxy "+(i+1)+" intergalaxies ago took " + timeDisplayShort(player.lastTenIntergalaxies[i][0]) + " and gave " + shortenDimensions(player.lastTenIntergalaxies[i][1]) +" GP. "+ tempstring
+        document.getElementById("extragalaxyrun"+(i+1)).innerHTML = "The Extragalaxy "+(i+1)+" extragalaxies ago took " + timeDisplayShort(player.lastTenExtragalaxies[i][0]) + " and gave " + shortenDimensions(player.lastTenExtragalaxies[i][1]) +" GP. "+ tempstring
     }
 
     var gppm = tempGP.dividedBy(tempTime/600)
     var tempstring = shorten(gppm) + " IP/min"
     averageGp = tempGP
     if (gppm<1) tempstring = shorten(gppm*60) + " IP/hour"
-    document.getElementById("averageIntergalaxyRun").innerHTML = "Last 10 intergalaxies average time: "+ timeDisplayShort(tempTime)+" Average GP gain: "+shortenDimensions(tempGP)+" GP. "+tempstring
+    document.getElementById("averageExtragalaxyRun").innerHTML = "Last 10 extragalaxies average time: "+ timeDisplayShort(tempTime)+" Average GP gain: "+shortenDimensions(tempGP)+" GP. "+tempstring
 }
 
-function addIntergalacticTime(time, gp) {
-    for (var i=player.lastTenIntergalaxies.length-1; i>0; i--) {
-        player.lastTenIntergalaxies[i] = player.lastTenIntergalaxies[i-1]
+function addExtragalacticTime(time, gp) {
+    for (var i=player.lastTenExtragalaxies.length-1; i>0; i--) {
+        player.lastTenExtragalaxies[i] = player.lastTenExtragalaxies[i-1]
     }
-    player.lastTenIntergalaxies[0] = [time, gp]
+    player.lastTenExtragalaxies[0] = [time, gp]
 }
 
 
@@ -6318,7 +6317,7 @@ document.getElementById("bigcrunch").onclick = function () {
         infchallengeTimes: player.infchallengeTimes,
         lastTenRuns: player.lastTenRuns,
         lastTenEternities: player.lastTenEternities,
-        lastTenIntergalaxies: player.lastTenIntergalaxies,
+        lastTenExtragalaxies: player.lastTenExtragalaxies,
         infMult: player.infMult,
         infMultCost: player.infMultCost,
         tickSpeedMultDecrease: player.tickSpeedMultDecrease,
@@ -6372,7 +6371,7 @@ document.getElementById("bigcrunch").onclick = function () {
         autoEterMode: player.autoEterMode,
         respec: player.respec,
         eternityBuyer: player.eternityBuyer,
-        intergalactic: player.intergalactic,
+        extragalactic: player.extragalactic,
         peaks: {
           ip: {
             perMin: new Decimal(0),
@@ -6641,7 +6640,7 @@ function eternity(force, enteringChallenge) {
             infchallengeTimes: player.infchallengeTimes,
             lastTenRuns: [[600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)]],
             lastTenEternities: player.lastTenEternities,
-            lastTenIntergalaxies: player.lastTenIntergalaxies,
+            lastTenExtragalaxies: player.lastTenExtragalaxies,
             infMult: new Decimal(1),
             infMultCost: new Decimal(10),
             tickSpeedMultDecrease: player.eternities > 18 ? player.tickSpeedMultDecrease : 10,
@@ -6761,7 +6760,7 @@ function eternity(force, enteringChallenge) {
             autoEterMode: player.autoEterMode,
             respec: player.respec,
             eternityBuyer: player.eternityBuyer,
-            intergalactic: player.intergalactic,
+            extragalactic: player.extragalactic,
             peaks: {
               ip: {
                 perMin: new Decimal(0),
@@ -6819,7 +6818,7 @@ function eternity(force, enteringChallenge) {
         updateChallengeTimes()
         updateLastTenRuns()
         updateLastTenEternities()
-        updateLastTenIntergalaxies()
+        updateLastTenExtragalaxies()
         var infchalls = Array.from(document.getElementsByClassName('infchallengediv'))
         for (var i = 0; i< infchalls.length; i++) infchalls[i].style.display = "none"
         updateMilestones()
@@ -6861,41 +6860,41 @@ function eternity(force, enteringChallenge) {
     }
 }
 
-function getIntergalacticPointBase (x) {
+function getExtragalacticPointBase (x) {
     if (x === undefined) {
       x = 0;
     }
-    x += player.intergalactic.galacticDimensionUpgrades[3];
-    return 256 + x * player.intergalactic.galaxies / 16
+    x += player.extragalactic.galacticDimensionUpgrades[3];
+    return 256 + x * player.extragalactic.galaxies / 16
 }
 
-function gainedIntergalacticPoints() {
-    let base = getIntergalacticPointBase();
+function gainedExtragalacticPoints() {
+    let base = getExtragalacticPointBase();
     return Decimal.floor(Decimal.pow(base, getTickSpeedMultiplier().pow(-1).e/308 - 1));
 }
 
-function intergalaxy(force) {
+function extragalaxy(force) {
     if (force || (getTickSpeedMultiplier().pow(-1).gte(Number.MAX_VALUE) &&
-    (!player.options.intergalaxyconfirm ||
-      confirm("Going intergalactic will reset everything except achievements " +
-      "and challenge records. You will also gain an Intergalactic Point " +
+    (!player.options.extragalaxyconfirm ||
+      confirm("Going extragalactic will reset everything except achievements " +
+      "and challenge records. You will also gain an Extragalactic Point " +
       "and unlock various upgrades.")))) {
         if (!force) {
-          if (player.intergalactic.thisIntergalaxy < player.intergalactic.bestIntergalaxy) {
-              player.intergalactic.bestIntergalaxy = player.intergalactic.thisIntergalaxy;
+          if (player.extragalactic.thisExtragalaxy < player.extragalactic.bestExtragalaxy) {
+              player.extragalactic.bestExtragalaxy = player.extragalactic.thisExtragalaxy;
           }
           // maybe add some new achievements here later
-          player.intergalactic.points = player.intergalactic.points.plus(gainedIntergalacticPoints())
-          addIntergalacticTime(player.intergalactic.thisIntergalaxy, gainedIntergalacticPoints())
+          player.extragalactic.points = player.extragalactic.points.plus(gainedExtragalacticPoints())
+          addExtragalacticTime(player.extragalactic.thisExtragalaxy, gainedExtragalacticPoints())
         }
 
-        // going intergalactic in a challenge should push you out of it without a new completion
+        // going extragalactic in a challenge should push you out of it without a new completion
 
         // for now just reset everything, don't worry about it, that will automatically have the desired effect
 
         if (force) {
           // to compensate, as late as possible
-          player.intergalactic.intergalaxies -= 1;
+          player.extragalactic.extragalaxies -= 1;
         }
         // put this here so we can keep stuff that works based on milestones,
         // but do it in a non-hacky way.
@@ -6972,7 +6971,7 @@ function intergalaxy(force) {
             infchallengeTimes: player.infchallengeTimes,
             lastTenRuns: [[600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)]],
             lastTenEternities: [[600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)], [600*60*24*31, new Decimal(1)]],
-            lastTenIntergalaxies: player.lastTenIntergalaxies,
+            lastTenExtragalaxies: player.lastTenExtragalaxies,
             infMult: new Decimal(1),
             infMultCost: new Decimal(10),
             tickSpeedMultDecrease: hasEternityMilestones ? player.tickSpeedMultDecrease : 10,
@@ -7126,24 +7125,24 @@ function intergalaxy(force) {
                 limit: new Decimal(0),
                 isOn: false
             },
-            intergalactic: {
-                points: player.intergalactic.points,
-                intergalaxies: player.intergalactic.intergalaxies + 1,
+            extragalactic: {
+                points: player.extragalactic.points,
+                extragalaxies: player.extragalactic.extragalaxies + 1,
                 galacticPower: new Decimal(0),
-                galacticDimension1: player.intergalactic.galacticDimension1,
-                galacticDimension2: player.intergalactic.galacticDimension2,
-                galacticDimension3: player.intergalactic.galacticDimension3,
-                galacticDimension4: player.intergalactic.galacticDimension4,
-                galacticDimensionUpgrades: player.intergalactic.galacticDimensionUpgrades,
-                galacticDimensionUpgradeCosts: player.intergalactic.galacticDimensionUpgradeCosts,
-                galacticDimensionUpgradeCostMults: player.intergalactic.galacticDimensionUpgradeCostMults,
-                totalGalacticDimensionUpgrades: player.intergalactic.totalGalacticDimensionUpgrades,
+                galacticDimension1: player.extragalactic.galacticDimension1,
+                galacticDimension2: player.extragalactic.galacticDimension2,
+                galacticDimension3: player.extragalactic.galacticDimension3,
+                galacticDimension4: player.extragalactic.galacticDimension4,
+                galacticDimensionUpgrades: player.extragalactic.galacticDimensionUpgrades,
+                galacticDimensionUpgradeCosts: player.extragalactic.galacticDimensionUpgradeCosts,
+                galacticDimensionUpgradeCostMults: player.extragalactic.galacticDimensionUpgradeCostMults,
+                totalGalacticDimensionUpgrades: player.extragalactic.totalGalacticDimensionUpgrades,
                 galaxies: 0,
-                antigalaxies: player.intergalactic.antigalaxies,
-                galacticstudy: player.intergalactic.galacticstudy,
-                thisIntergalaxy: 0,
-                bestIntergalaxy: player.intergalactic.bestIntergalaxy,
-                intergalaxyBuyer: player.intergalactic.intergalaxyBuyer
+                antigalaxies: player.extragalactic.antigalaxies,
+                galacticstudy: player.extragalactic.galacticstudy,
+                thisExtragalaxy: 0,
+                bestExtragalaxy: player.extragalactic.bestExtragalaxy,
+                extragalaxyBuyer: player.extragalactic.extragalaxyBuyer
             },
             peaks: {
               ip: {
@@ -7201,7 +7200,7 @@ function intergalaxy(force) {
         updateChallengeTimes()
         updateLastTenRuns()
         updateLastTenEternities()
-        updateLastTenIntergalaxies()
+        updateLastTenExtragalaxies()
         var infchalls = Array.from(document.getElementsByClassName('infchallengediv'))
         for (var i = 0; i< infchalls.length; i++) infchalls[i].style.display = "none"
         // added some more peaks
@@ -7348,7 +7347,7 @@ function startChallenge(name, target) {
       infchallengeTimes: player.infchallengeTimes,
       lastTenRuns: player.lastTenRuns,
       lastTenEternities: player.lastTenEternities,
-      lastTenIntergalaxies: player.lastTenIntergalaxies,
+      lastTenExtragalaxies: player.lastTenExtragalaxies,
       infMult: player.infMult,
       infMultCost: player.infMultCost,
       tickSpeedMultDecrease: player.tickSpeedMultDecrease,
@@ -7401,7 +7400,7 @@ function startChallenge(name, target) {
       autoEterMode: player.autoEterMode,
       respec: player.respec,
       eternityBuyer: player.eternityBuyer,
-      intergalactic: player.intergalactic,
+      extragalactic: player.extragalactic,
       peaks: {
         ip: {
           perMin: new Decimal(0),
@@ -7519,7 +7518,7 @@ function getTotalTickGained (timeshards, num) {
   let a1 = Math.log10(1.001);
   let b1 = Math.log10(get_c());
   let c1 = timeshards.log(10);
-  return arithmeticSequencePurchases(a1, b1, c1, -1) + 1;
+  return arithmeticSequencePurchases(a1, b1, c1, -1).amount + 1;
 }
 
 function updateTimeShards() {
@@ -7530,34 +7529,34 @@ function updateTimeShards() {
 
 // some more galactic dimension stuff
 
-function getIntergalacticGalaxyThreshold (num) {
-  return intergalacticGalaxyCost(getTotalIntergalacticGalaxiesGained(num) + 1, num)
+function getExtragalacticGalaxyThreshold (num) {
+  return extragalacticGalaxyCost(getTotalExtragalacticGalaxiesGained(num) + 1, num)
 }
 
-function getIntergalacticGalaxyCostBase (num) {
+function getExtragalacticGalaxyCostBase (num) {
   if (num === undefined) {
       num = 0;
   }
-  num += player.intergalactic.galacticDimensionUpgrades[1];
+  num += player.extragalactic.galacticDimensionUpgrades[1];
   return Math.pow(2, 1 / 16 + (1 / Math.log2(4 + num)) * 7 / 8);
 }
 
-function intergalacticGalaxyCost (x, num) {
-  let base = getIntergalacticGalaxyCostBase(num);
+function extragalacticGalaxyCost (x, num) {
+  let base = getExtragalacticGalaxyCostBase(num);
   return Decimal.pow(base, x - 1);
 }
 
-function getTotalIntergalacticGalaxiesGained (num) {
-  if (player.intergalactic.galacticPower.lt(1)) {
+function getTotalExtragalacticGalaxiesGained (num) {
+  if (player.extragalactic.galacticPower.lt(1)) {
       return 0;
   }
-  let base = getIntergalacticGalaxyCostBase(num);
-  return Math.floor(player.intergalactic.galacticPower.log(base) + 1);
+  let base = getExtragalacticGalaxyCostBase(num);
+  return Math.floor(player.extragalactic.galacticPower.log(base) + 1);
 }
 
-function updateIntergalacticGalaxies() {
-    document.getElementById("galacticPowerAmount").innerHTML = shortenMoney(player.intergalactic.galacticPower)
-    document.getElementById("galaxyThreshold").innerHTML = shortenMoney(getIntergalacticGalaxyThreshold())
+function updateExtragalacticGalaxies() {
+    document.getElementById("galacticPowerAmount").innerHTML = shortenMoney(player.extragalactic.galacticPower)
+    document.getElementById("galaxyThreshold").innerHTML = shortenMoney(getExtragalacticGalaxyThreshold())
     document.getElementById("galacticPowerPerSec").innerHTML = "You are getting "+shortenDimensions(getGalacticDimensionProduction(1))+" Galactic Power per second."
 }
 
@@ -7778,8 +7777,8 @@ setInterval(function() {
     // here also not banked
     if (player.infinities == 0) document.getElementById("pastinfs").style.display = "none"
     else document.getElementById("pastinfs").style.display = "inline-block"
-    if (player.intergalactic.intergalaxies == 0) document.getElementById("pastintergalaxies").style.display = "none"
-    else document.getElementById("pastintergalaxies").style.display = "inline-block"
+    if (player.extragalactic.extragalaxies == 0) document.getElementById("pastextragalaxies").style.display = "none"
+    else document.getElementById("pastextragalaxies").style.display = "inline-block"
 
     if (player.eternities > 10) {
         for (var i=1;i<player.eternities-9 && i < 9; i++) {
@@ -7951,7 +7950,7 @@ function startInterval() {
         player.totalTimePlayed += diff
         player.thisInfinityTime += diff
         player.thisEternity += diff
-        player.intergalactic.thisIntergalaxy += diff
+        player.extragalactic.thisExtragalaxy += diff
         /*
         // We're adding time in the eternity.
         if (player.eternityChallenges.current === 12) {
@@ -7970,7 +7969,7 @@ function startInterval() {
             else document.getElementById("infRow"+tier).style.display = "none"
 
             if (tier <4) player["timeDimension"+tier].amount = player["timeDimension"+tier].amount.plus(getTimeDimensionProduction(tier+1).times(diff/100))
-            if (tier <4) player["timeDimension"+tier].amount = player.intergalactic["galacticDimension"+tier].amount.plus(getGalacticDimensionProduction(tier+1).times(diff/100))
+            if (tier <4) player.extragalactic["galacticDimension"+tier].amount = player.extragalactic["galacticDimension"+tier].amount.plus(getGalacticDimensionProduction(tier+1).times(diff/100))
         }
 
         if (player.eternities > 0) document.getElementById("dimTabButtons").style.display = "inline-block"
@@ -7994,11 +7993,11 @@ function startInterval() {
         document.getElementById("totaltickgained").innerHTML = "You've gained "+shortenDimensions(player.totalTickGained)+" tickspeed upgrades."
         updateTickSpeed();
 
-        player.intergalactic.galacticPower = player.intergalactic.galacticPower.plus(getGalacticDimensionProduction(1).times(diff/10))
+        player.extragalactic.galacticPower = player.extragalactic.galacticPower.plus(getGalacticDimensionProduction(1).times(diff/10))
 
-        let newTotalGalaxiesGained = getTotalIntergalacticGalaxiesGained();
-        player.intergalactic.galaxies = newTotalGalaxiesGained;
-        document.getElementById("totaltickgained").innerHTML = "You've gained "+shortenDimensions(newTotalGalaxiesGained)+" tickspeed upgrades."
+        let newTotalGalaxiesGained = getTotalExtragalacticGalaxiesGained();
+        player.extragalactic.galaxies = newTotalGalaxiesGained;
+        document.getElementById("totalgalaxiesgained").innerHTML = "You've gained "+shortenDimensions(newTotalGalaxiesGained)+" extragalactic galaxies."
 
         if (player.eternities == 0) {
             document.getElementById("eternityPoints2").style.display = "none"
@@ -8028,7 +8027,7 @@ function startInterval() {
           document.getElementById("IPPeakDiv").style.display = "none";
         }
 
-        if (player.intergalactic.intergalaxies > 0) {
+        if (player.extragalactic.extragalaxies > 0) {
             document.getElementById('tickspeedinc').style.display = "inline";
         } else {
             document.getElementById('tickspeedinc').style.display = "none";
@@ -8657,9 +8656,8 @@ var newsArray = ["You just made your 1,000,000,000,000,000 antimatter. This one 
 "Somebody told me to wait five hours for the update yesterday but it's today and it still hasn't come! What do I do?", "Antimatter Dimensions is proud to be sponsored by Lehmä! Now offering - grass eating lessons! Learn what grass is safe to eat and what grass isn't.",
 "It is the year 2422. The update still isn't out. Hevi is working on balancing unfunity dimension dimensions and challenges for the 38th layer of prestige. There are over 100 rows of achievements. They're getting ready to start using breaking_breaking_breaking_infinity.js",
 "Thanos is gonna be super dissapointed when he shows up with a fully powered infinity gauntlet, and Hevi has a fully powered eternity gauntlet", "If the 9th dimension is all evil, then is 3 the root of all evil?",
-"Import Christmas for a secret theme", "The intergalactic update was initially going to be called the extragalactic update but fortunately I looked up the definitions of those terms first. Unless the Milky Way is made of antimatter or replicanti, I think all your galaxies are extragalactic.",
-"Technically speaking, your intergalactic galaxies are actually just lonely galaxies. An intergalactic galaxy is still a contradiction in terms, but \"lonely galaxy\" sounds like there was a cost increase or something so I couldn't use it.",
-"The hardest part of the intergalactic update was finding somewhere to put the \"Go intergalactic\" button. Not to say that the rest was easy, but that was the hardest part.",
+"Import Christmas for a secret theme", "Technically speaking, all your galaxies are extragalactic. Either that or the Milky Way is in for a big surprise when you go infinite.",
+"The hardest part of the extragalactic update was finding somewhere to put the \"Go extragalactic\" button. Not to say that the rest was easy, but that was the hardest part.",
 "If you haven't unlocked antipichus yet, you're playing the game wrong. How in the world are you supposed to finish this two-hour long game in any reasonable amount of time without figuring out antipichus? I guess it might be possible if you're the type of crazy person willing to spend weeks or even months on the game, but I doubt it."]
 
 
