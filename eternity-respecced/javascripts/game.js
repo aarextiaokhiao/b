@@ -2744,7 +2744,25 @@ function buyManyTimeStudy(num, x) {
   }
 }
 
-// ??? this line went missing, I was going to use a cool base-7 system for time study spec and it was replaced with bracket notation
+function exportSpec() {
+  let l = [];
+  for (let i = 1; i <= numTimeStudies; i++) {
+    if (studyHasBeenUnlocked(i)) {
+      l.push(player.timestudy.studies[i]);
+    }
+  }
+  let s = l.join('/');
+  copyToClipboard(s);
+}
+
+function importSpec () {
+  let s = prompt('Enter your spec');
+  let l = s.split('/');
+  for (let i = 1; i <= l.length; i++) {
+    let amount = +l[i - 1];
+    buyManyTimeStudy(i, amount);
+  }
+}
 
 function respecTimeStudies() {
   // Respec can be done after challenge unlock, I don't care.
