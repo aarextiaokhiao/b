@@ -2940,9 +2940,84 @@ function importGalacticSpec () {
 function respecGalacticStudies() {
   eternity(true, false);
   resetGalacticDimensions();
+  player.extragalactic.antigalaxies = 0;
+  player.extragalactic.galacticstudy.theorems = 0;
+  player.extragalactic.galacticStudies.studies = {
+    '11': 0, '21': 0, '31': 0, '41': 0,
+    '12': 0, '22': 0, '32': 0, '42': 0,
+    '13': 0, '23': 0, '33': 0, '43': 0,
+    '14': 0, '24': 0, '34': 0, '44': 0
+  },;
   updateGalacticTheoremButtons();
   updateGalacticTimeStudyButtons();
 }
+
+// galactic studies can't be too strong: towards the end, maybe
+// 1 purchase = 5 galaxies. This means that about 1.2x multiplier on GD
+// is reasonable, maybe a little more. We can get this by taking the tenth
+// root of the log.
+// Non-GD might be too strong, let's see what the testers think.
+
+let firstGSBenefits = [
+  function (x) {
+    return x.pow(2000);
+  },
+  function (x) {
+    return x.pow(40);
+  },
+  function (x) {
+    return x.pow(4);
+  },
+  function (x) {
+    return new Decimal(x.log(2).plus(1)).pow(.1);
+  }
+]
+
+let secondGSBenefits = [
+  function () {
+    let x = player.extragalactic.extragalacticPoints;
+    return x.plus(1);
+  },
+  function () {
+    let x = player.extragalactic.extragalaxies;
+    return Decimal.pow(x + 1, Math.log2(x + 1) / 4);
+  },
+  function () {
+    let x = player.extragalactic.galacticPower;
+    return x.plus(1).pow(.2);
+  },
+  function () {
+    let x = player.extragalactic.galacticstudy.theorems;
+    return Decimal.pow(x + 1, Math.cbrt(x + 1))
+  }
+];
+
+function getGSBenefit (id, num) {
+    // string autoconverts to number under subtraction
+    return firstGSBenefits[id[0] - 1](secondGSBenefits[id[1] - 1]()).pow(num);
+}
+
+function whatGS (id) {
+  let dimType = ['normal', 'infinity', 'time', 'galactic'][id[0] - 1];
+  let basedOn = ['extragalactic points', 'times gone extragalactic', 'galactic power', 'unspent galactic theorems'][id[1] - 1];
+  return 'Boost all ' + dimType + ' dimensions based on ' + basedOn;
+}
+
+function updateTSDescs () {
+  for (let i = 1; i <= 4 i++) {
+    for (let j = 1; j <= 4; j++) {
+      let id = i.toString() + j.toString();
+      let oldBenefit = getTSBenefit(id, player.extragalactic.galacticstudy.studies[id]);
+      let newBenefit = getTSBenefit(id, player.extragalactic.galacticstudy.studies[id] + 1);
+      document.getElementById('gs' + id + 'desc').innerHTML = whatGS(id) + ':<br/>' + smartShortenMoney(oldBenefit) + 'x -> ' + smartShortenMoney(newBenefit) + 'x';
+  }
+}
+
+/*
+todo:
+there's almost certainly going to be some type of index order issue, fix that (that is, row vs column, first index vs second index, affected dimension vs what affect is based on)
+also: display of number of antigalaxies, two repeatable upgrades (one of which should make galactic studies slightly stronger, maybe 50% of original strength per purchase?)
+*/
 
 // Soft reset (or dimboost).
 
