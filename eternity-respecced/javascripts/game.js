@@ -2744,25 +2744,7 @@ function buyManyTimeStudy(num, x) {
   }
 }
 
-function exportSpec() {
-  let l = [];
-  for (let i = 1; i <= numTimeStudies; i++) {
-    if (studyHasBeenUnlocked(i)) {
-      l.push(player.timestudy.studies[i]);
-    }
-  }
-  let s = l.join('/');
-  copyToClipboard(s);
-}
-
-function importSpec () {
-  let s = prompt('Enter your spec');
-  let l = s.split('/');
-  for (let i = 1; i <= l.length; i++) {
-    let amount = +l[i - 1];
-    buyManyTimeStudy(i, amount);
-  }
-}
+// ??? this line went missing, I was going to use a cool base-7 system for time study spec and it was replaced with bracket notation
 
 function respecTimeStudies() {
   // Respec can be done after challenge unlock, I don't care.
@@ -2916,26 +2898,7 @@ function buyManyGalacticStudy (id, x) {
     return newAmount > 0;
 }
 
-/*
-
-function buyManyTimeStudy(num, x) {
-  if (studyHasBeenUnlocked(num)) {
-      let already = player.timestudy.studies[num];
-      let totalTT = player.timestudy.theorem + already * (already + 1) / 2;
-      let total = Math.floor((Math.sqrt(totalTT * 8 + 1 + .001) - 1) / 2);
-      let newAmount = Math.min(x, total - already);
-      let newCost = newAmount * (newAmount + 2 * already + 1) / 2
-      player.timestudy.studies[num] += newAmount;
-      player.timestudy.theorem -= newCost;
-      updateTheoremButtons()
-      updateTimeStudyButtons()
-      return newAmount > 0;
-  } else {
-      return false;
-  }
-}
-
-function exportSpec() {
+function exportGalacticSpec() {
   let l = [];
   for (let i = 1; i <= numTimeStudies; i++) {
     if (studyHasBeenUnlocked(i)) {
@@ -2946,28 +2909,22 @@ function exportSpec() {
   copyToClipboard(s);
 }
 
-function importSpec () {
-  let s = prompt('Enter your spec');
+function importGalacticSpec () {
+  let s = prompt('Enter your spec:');
   let l = s.split('/');
-  for (let i = 1; i <= l.length; i++) {
-    let amount = +l[i - 1];
-    buyManyTimeStudy(i, amount);
+  for (let i = 0; i < l.length; i++) {
+    let amount = +l[i];
+    let id = (Math.floor(i / 4) + 1).toString() + (i % 4).toString();
+    buyManyGalacticStudy(id, amount);
   }
 }
 
-function respecTimeStudies() {
-  // Respec can be done after challenge unlock, I don't care.
-  for (let i = 0; i < player.timestudy.studies.length; i++) {
-    let bought = player.timestudy.studies[i];
-    if (bought !== null) {
-      player.timestudy.theorem += (bought * (bought + 1)) / 2;
-      player.timestudy.studies[i] = 0;
-    }
-  }
-  updateTheoremButtons();
-  updateTimeStudyButtons();
+function respecGalacticStudies() {
+  eternity(true, false);
+  resetGalacticDimensions();
+  updateGalacticTheoremButtons();
+  updateGalacticTimeStudyButtons();
 }
-*/
 
 // Soft reset (or dimboost).
 
@@ -5533,7 +5490,7 @@ function setAchieveTooltip() {
     layer.setAttribute('ach-tooltip', "Reach "+shortenMoney(Number.MAX_VALUE)+" EP. Reward: Time dimensions get a multiplier based on EP.")
     infstuff.setAttribute('ach-tooltip', "Reach "+shortenCosts(new Decimal("1e14000"))+" IP without buying IDs or IP multipliers.  Reward: Multiplier to IP based on infinity power.")
     fkoff.setAttribute('ach-tooltip', "Reach "+shortenCosts(new Decimal("1e66600"))+" IP without any time studies. Reward: Time dimensions are multiplied by the total number of time theorems you have.")
-    goaway.setAttribute('ach-tooltip', "Reach "+shortenCosts(new Decimal("1e66600"))+" IP without any time studies, galactic studies, or eternity challenge completions. Reward: Time dimensions are multiplied by the total number of galactic theorems you have.")
+    goaway.setAttribute('ach-tooltip', "Reach "+shortenCosts(new Decimal("1e66600"))+" IP without any time studies, galactic studies, or eternity challenge completions. Reward: Each eternity challenge completion gives a 1.2x multiplier to time dimensions.")
 }
 
 document.getElementById("notation").onclick = function () {
