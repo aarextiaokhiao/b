@@ -1636,6 +1636,8 @@ function getDimensionFinalMultiplier(tier) {
     if (player.currentChallenge == "postc6") multiplier = multiplier.dividedBy(player.matter.max(1))
     if (player.currentChallenge == "postc8") multiplier = multiplier.times(postc8Mult)
 
+    multiplier = multiplier.times(getGalacticStudyMultiplierTo(1));
+
     /*
     // newest EC6 reward handled
     multiplier = multiplier.times(ecNumReward(6));
@@ -2129,6 +2131,8 @@ function DimensionPower(tier) {
     // EC4 reward handled
     mult = mult.times(ecNumReward(4));
 
+    mult = mult.times(getGalacticStudyMultiplierTo(2));
+
     /*
     // EC7 reward handled id (2/3)
     mult = mult.times(ecNumReward(7));
@@ -2364,6 +2368,7 @@ function getPower(tier) {
   */
 
   // and for TD
+  ret = ret.times(getGalacticStudyMultiplierTo(3));
   if (ret.lt(1)) {ret = new Decimal(1)}
   return ret;
 }
@@ -2477,6 +2482,7 @@ function getGalacticDimensionPower(tier) {
   ret = ret.times(Decimal.pow(2, player.extragalactic.galacticDimensionUpgrades[0]));
   ret = ret.times(Decimal.pow(multiplierPerGalacticUpgrade3(), player.extragalactic.galacticDimensionUpgrades[2]));
   ret = ret.times(Decimal.pow(1.05, player.extragalactic.totalGalacticDimensionUpgrades));
+  ret = ret.times(getGalacticStudyMultiplierTo(4));
   if (ret.lt(1)) {ret = new Decimal(1)}
   return ret;
 }
@@ -2870,7 +2876,8 @@ function updateGalacticTheoremButtons() {
     document.getElementById("gtheoremone").innerHTML = 'Get 1 antigalaxy and ' + per + ' Galactic Theorem' + ((per === 1) ? '' : 's') + '.';
     document.getElementById("gtheoremchosen").innerHTML = 'Get ' + b + ' antigalax' + ((b === 1) ? 'y' : 'ies') + ' and ' + (b * per) + ' Galactic Theorem' + ((b * per === 1) ? '' : 's') + '.';
     document.getElementById("gtheoremmax").innerHTML = 'Get ' + g + ' antigalax' + ((g === 1) ? 'y' : 'ies') + ' and ' + (g * per) + ' Galactic Theorem' + ((g * per === 1) ? '' : 's') + '.';
-    document.getElementById("galactictheorems").innerHTML = "You have <span style='display:inline' class=\"GalacticTheoremAmount\">"+player.extragalactic.galacticstudy.theorem+"</span> unspent Galactic "+ (player.extragalactic.galacticstudy.theorem === 1 ? "Theorem." : "Theorems.")
+    document.getElementById("antigalaxies").innerHTML = "You have <span style='display:inline' class=\"AntigalaxyAmount\">"+player.extragalactic.antigalaxy+"</span> "+ (player.extragalactic.galacticstudy.antigalaxy === 1 ? "antigalaxy." : "antigalaxies.");
+    document.getElementById("galactictheorems").innerHTML = "You have <span style='display:inline' class=\"GalacticTheoremAmount\">"+player.extragalactic.galacticstudy.theorem+"</span> unspent Galactic "+ (player.extragalactic.galacticstudy.theorem === 1 ? "Theorem." : "Theorems.");
 }
 
 function buyOneGalacticStudy (id) {
@@ -2994,7 +3001,16 @@ let secondGSBenefits = [
 
 function getGSBenefit (id, num) {
     // string autoconverts to number under subtraction
-    return firstGSBenefits[id[0] - 1](secondGSBenefits[id[1] - 1]()).pow(num);
+    return firstGSBenefits[id[0] - 1](secondGSBenefits[id[1] - 1]()).pow(num).pow(1 + player.extragalactic.galacticstudies.upgrades[0] * 0.5);
+}
+
+function getGalacticStudyMultiplierTo(dimtype) {
+    let mult = new Decimal(1);
+    for (let j = 1; j <= 4; j++) {
+        let id = dimtype.toString() + j.toString();
+        mult = mult.times(getGSBenefit(id, player.extragalactic.galacticstudy.studies[id]));
+    }
+    return mult;
 }
 
 function whatGS (id) {
@@ -3003,7 +3019,7 @@ function whatGS (id) {
   return 'Boost all ' + dimType + ' dimensions based on ' + basedOn;
 }
 
-function updateTSDescs () {
+function updateGSDescs () {
   for (let i = 1; i <= 4 i++) {
     for (let j = 1; j <= 4; j++) {
       let id = i.toString() + j.toString();
@@ -3013,11 +3029,12 @@ function updateTSDescs () {
   }
 }
 
-/*
-todo:
-there's almost certainly going to be some type of index order issue, fix that (that is, row vs column, first index vs second index, affected dimension vs what affect is based on)
-also: display of number of antigalaxies, two repeatable upgrades (one of which should make galactic studies slightly stronger, maybe 50% of original strength per purchase?)
-*/
+function buyGalacticTheoremUpgrade (id) {
+    if (player.extragalactic.extragalacticPoints.gte(player.extragalactic.galacticstudy.upgradeCosts[id])) {
+        player.extragalactic.extragalacticPoints = player.extragalactic.extragalacticPoints.minus(player.extragalactic.galacticstudy.upgradeCosts[id]);
+        player.extragalactic.galacticstudy.upgradeCosts[id] = player.extragalactic.galacticstudy.upgradeCosts[id].times(player.extragalactic.galacticstudy.upgradeCostMults[id])
+    }
+}
 
 // Soft reset (or dimboost).
 
