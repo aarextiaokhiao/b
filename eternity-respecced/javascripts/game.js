@@ -1362,7 +1362,9 @@ function mysterious (value) {
 }
 
 function setCustomNotation () {
-    document.getElementById("notation").innerHTML = 'Notation: ' + player.options.customNotationName;
+    if (player.options.notation === 'Custom') {
+      document.getElementById("notation").innerHTML = 'Notation: ' + player.options.customNotationName;
+    }
     x = eval(player.options.customNotation);
     if (typeof x === 'function') {
         customNotationFunction = x;
@@ -6936,6 +6938,7 @@ function eternity(force, enteringChallenge) {
         // give the player resets if they have the upgrade needed
         giveInfPurchaseResets()
         let epPlural = player.eternityPoints.equals(1) ? '' : 's';
+        document.getElementById("eternityPoints1").innerHTML = "You have <span class=\"EPAmount1\">"+shortenDimensions(player.eternityPoints)+"</span> Eternity Point" + epPlural + "."
         document.getElementById("eternityPoints2").innerHTML = "You have <span class=\"EPAmount2\">"+shortenDimensions(player.eternityPoints)+"</span> Eternity Point" + epPlural + "."
     }
 }
@@ -7321,6 +7324,7 @@ function extragalaxy(force) {
         // give the player resets if they have the upgrade needed
         giveInfPurchaseResets()
         let epPlural = player.eternityPoints.equals(1) ? '' : 's';
+        document.getElementById("eternityPoints1").innerHTML = "You have <span class=\"EPAmount1\">"+shortenDimensions(player.eternityPoints)+"</span> Eternity Point" + epPlural + "."
         document.getElementById("eternityPoints2").innerHTML = "You have <span class=\"EPAmount2\">"+shortenDimensions(player.eternityPoints)+"</span> Eternity Point" + epPlural + "."
     }
 }
@@ -7809,6 +7813,7 @@ setInterval(function() {
     }
 
     let epPlural = player.eternityPoints.equals(1) ? '' : 's';
+    document.getElementById("eternityPoints1").innerHTML = "You have <span class=\"EPAmount1\">"+shortenDimensions(player.eternityPoints)+"</span> Eternity Point" + epPlural + "."
     document.getElementById("eternityPoints2").innerHTML = "You have <span class=\"EPAmount2\">"+shortenDimensions(player.eternityPoints)+"</span> Eternity Point" + epPlural + "."
 
     document.getElementById("eternitybtn").style.display = player.infinityPoints.gte(currentEternityRequirement()) ? "inline-block" : "none"
