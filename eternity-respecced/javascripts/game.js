@@ -2556,7 +2556,7 @@ function resetGalacticDimensions() {
 
 // Time studies
 
-let numTimeStudies = 8;
+let numTimeStudies = 10;
 
 function studyHasBeenUnlocked (num) {
   return rowHasBeenUnlocked(Math.floor((num + 1) / 2));
@@ -2695,9 +2695,9 @@ function getTotalTT () {
   return Math.round(player.timestudy.amcost.log(10) / 20000 + player.timestudy.ipcost.log(10) / 100 + player.timestudy.epcost.log(2) - 1);
 }
 
-let nextStudiesAt = [60, 1000];
+let nextStudiesAt = [60, 1000, 100000];
 
-let studyRowLevels = {1: 0, 2: 0, 3: 1, 4: 2}
+let studyRowLevels = {1: 0, 2: 0, 3: 1, 4: 2, 5: 3}
 
 function updateTheoremButtons() {
     document.getElementById("theoremam").className = player.money.gte(player.timestudy.amcost) ? "timetheorembtn" : "timetheorembtnlocked"
@@ -2718,7 +2718,7 @@ function updateTheoremButtons() {
         document.getElementById("nextstudy").innerHTML = "Next time studies unlock at " + nextStudiesAt[player.timestudy.studyGroupsUnlocked] + " total Time Theorems.";
         if (getTotalTT() >= nextStudiesAt[player.timestudy.studyGroupsUnlocked]) {
             player.timestudy.studyGroupsUnlocked += 1
-            if (player.timestudy.studyGroupsUnlocked === nextStudiesAt.length) {
+            if (player.timestudy.studyGroupsUnlocked === 4) {
                 giveAchievement('Now actually go study')
             }
         }
@@ -4389,7 +4389,9 @@ let whatTS = {
   5: 'Current IP multiplier',
   6: 'Current IP multiplier',
   7: 'Current percentage',
-  8: 'Current percentage'
+  8: 'Current percentage',
+  9: 'Power',
+  10: 'Power'
 }
 
 function getTSBenefit (i, num) {
@@ -4411,6 +4413,14 @@ function getTSBenefit (i, num) {
     return num;
   } else if (i === 8) {
     return num;
+  } else if (i === 9) {
+    return 1 + Math.log(num + 1) * Math.log10(Math.max(1, player.replicanti.amount.log(10))) / 1000;
+  } else if (i === 10) {
+    let x = Math.max(0, player.extragalactic.galacticPower.log(10));
+    if (x > 100) {
+       x = (1 + Math.ln(x / 100)) * 100;
+    }
+    return 1 + Math.log(num + 1) * Math.sqrt(x) / 1000;
   }
 }
 
@@ -5540,6 +5550,7 @@ function gainedInfinityPoints() {
     }
     ret = ret.times(getTSBenefit(5, player.timestudy.studies[5]));
     ret = ret.times(getTSBenefit(6, player.timestudy.studies[6]));
+    ret = ret.pow(getTSBenefit(9, player.timestudy.studies[9]));
     return ret
 }
 
@@ -5548,6 +5559,7 @@ function gainedEternityPoints() {
     if (player.eternityUpgrades.includes(6)) {
       ret = ret.times(1 + Math.pow(Math.max(player.timeShards.log(10), 0), 0.3));
     }
+    ret = ret.pow(getTSBenefit(9, player.timestudy.studies[9]));
     return ret;
 }
 
@@ -8072,15 +8084,17 @@ function startInterval() {
             document.getElementById("eternitystorebtn").style.display = "none"
         }
 
-        let canInfinity = player.money.gte(Number.MAX_VALUE) && (!player.break || (player.currentChallenge != "" && player.money.gte(player.challengeTarget)));
+        let broken = player.break && player.currentChallenge === "";
 
-        if (canInfinity) {
+        let canInfinity = (player.money.gte(Number.MAX_VALUE) && !player.currentChallenge.includes("post")) || (player.currentChallenge !== "" && player.money.gte(player.challengeTarget));
+
+        if (!broken && canInfinity) {
             document.getElementById("bigcrunch").style.display = 'inline-block';
             if ((player.currentChallenge == "" || player.options.retryChallenge) && (player.bestInfinityTime <= 600 || player.break)) {}
             else showTab('emptiness');
         } else document.getElementById("bigcrunch").style.display = 'none';
 
-        if (player.break && player.money.gte(Number.MAX_VALUE) && player.currentChallenge == "") {
+        if (broken && canInfinity) {
             document.getElementById("postInfinityButton").style.display = "inline-block"
         } else {
             document.getElementById("postInfinityButton").style.display = "none"
