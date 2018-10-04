@@ -2949,12 +2949,12 @@ function respecGalacticStudies() {
   resetGalacticDimensions();
   player.extragalactic.antigalaxies = 0;
   player.extragalactic.galacticstudy.theorems = 0;
-  player.extragalactic.galacticStudies.studies = {
+  player.extragalactic.galacticstudy.studies = {
     '11': 0, '21': 0, '31': 0, '41': 0,
     '12': 0, '22': 0, '32': 0, '42': 0,
     '13': 0, '23': 0, '33': 0, '43': 0,
     '14': 0, '24': 0, '34': 0, '44': 0
-  },;
+  };
   updateGalacticTheoremButtons();
   updateGalacticTimeStudyButtons();
 }
@@ -2982,7 +2982,7 @@ let firstGSBenefits = [
 
 let secondGSBenefits = [
   function () {
-    let x = player.extragalactic.extragalacticPoints;
+    let x = player.extragalactic.points;
     return x.plus(1);
   },
   function () {
@@ -3001,7 +3001,7 @@ let secondGSBenefits = [
 
 function getGSBenefit (id, num) {
     // string autoconverts to number under subtraction
-    return firstGSBenefits[id[0] - 1](secondGSBenefits[id[1] - 1]()).pow(num).pow(1 + player.extragalactic.galacticstudies.upgrades[0] * 0.5);
+    return firstGSBenefits[id[0] - 1](secondGSBenefits[id[1] - 1]()).pow(num).pow(1 + player.extragalactic.galacticstudy.upgrades[0] * 0.5);
 }
 
 function getGalacticStudyMultiplierTo(dimtype) {
@@ -3020,12 +3020,13 @@ function whatGS (id) {
 }
 
 function updateGSDescs () {
-  for (let i = 1; i <= 4 i++) {
+  for (let i = 1; i <= 4; i++) {
     for (let j = 1; j <= 4; j++) {
       let id = i.toString() + j.toString();
       let oldBenefit = getTSBenefit(id, player.extragalactic.galacticstudy.studies[id]);
       let newBenefit = getTSBenefit(id, player.extragalactic.galacticstudy.studies[id] + 1);
       document.getElementById('gs' + id + 'desc').innerHTML = whatGS(id) + ':<br/>' + smartShortenMoney(oldBenefit) + 'x -> ' + smartShortenMoney(newBenefit) + 'x';
+    }
   }
 }
 

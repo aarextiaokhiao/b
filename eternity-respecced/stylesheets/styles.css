@@ -446,6 +446,15 @@
     font-weight: bold;
 }
 
+.GP {
+    font-size: 12px;
+    font-family: Typewriter;
+}
+
+.GPAmount2 {
+    font-weight: bold;
+}
+
 .newdim {
     font-weight: bold;
     border-radius: 4px;
@@ -534,6 +543,31 @@
     font-weight: bold;
     border: 2px solid #B67F33;
     border-radius: 4px;
+}
+
+.extragalacticbtn {
+    border-radius: 4px;
+    transition-duration: 0.2s;
+    cursor: pointer;
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 225px;
+    height: 70px;
+    font-family: Typewriter;
+    color: #e0b341;
+    background: black;
+    border: 2px solid #e0b341;
+    cursor: pointer;
+    font-size: 11px;
+}
+
+
+.extragalacticbtn:hover {
+    color: #685115;
+    background: white;
 }
 
 .eternitytabbtn {
