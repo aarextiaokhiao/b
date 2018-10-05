@@ -294,6 +294,16 @@ input {
     text-shadow: 0px 0px 7px #b341e0;
 }
 
+.GPAmount1 {
+    color: #e0b341 !important;
+    text-shadow: 0px 0px 7px #e0b341;
+}
+
+.GPAmount2 {
+    color: #e0b341 !important;
+    text-shadow: 0px 0px 7px #e0b341;
+}
+
 .TheoremAmount {
     color: #64DD17 !important;
     text-shadow: 0px 0px 7px #64DD17;
@@ -330,93 +340,14 @@ input {
     background: #3A0A57 !important;
 }
 
-.timestudy.normaldimstudy:hover {
-    color: #EEEEEE !important;
-    background: #0d401b !important;
-}
-
-.timestudy.infdimstudy:hover {
-    color: #EEEEEE !important;
-    background: #543b18 !important;
-}
-
-.timestudy.timedimstudy:hover {
-    color: #EEEEEE !important;
-    background: #6a158e !important;
-}
-
-.timestudy.activestudy:hover {
-    color: #EEEEEE !important;
-    background: #FF0100 !important;
-}
-
-.timestudy.idlestudy:hover {
-    color: #EEEEEE !important;
-    background: #0080ff !important;
-}
-
 .timestudybought {
     color: #1e0830 !important;
     background: #8D48C3 !important;
 }
 
-.timestudybought.normaldimstudy {
-    background: #22aa48 !important;
-    border: 1px solid #198036 !important;
-}
-
-.timestudybought.infdimstudy {
-    background: #B67F33 !important;
-    border: 1px solid #8b6227 !important;
-}
-
-.timestudybought.timedimstudy {
-    background: #B241E3 !important;
-    border: 1px solid #951ec8 !important;
-}
-
-.timestudybought.activestudy {
-    background: #FF0100 !important;
-    border: 1px solid #cc0000 !important;
-}
-
-.timestudybought.passivestudy {
-    background: #5E33B6 !important;
-    border: 1px solid #4b288f !important;
-}
-
-.timestudybought.idlestudy {
-    background: #0080ff !important;
-    border: 1px solid #0066cc !important;
-}
-
 .timestudylocked {
     background: #23292a !important;
     color: black !important;
-}
-
-.timestudylocked.normaldimstudylocked {
-    background: #212c24 !important;
-}
-
-.timestudylocked.infdimstudylocked {
-    background: #2c2721 !important;
-}
-
-.timestudylocked.timedimstudylocked {
-    background: #29212c !important;
-}
-
-.timestudylocked.activestudylocked {
-    background: #2c2121 !important;
-}
-
-.timestudylocked.passivestudylocked {
-    background: #24212c !important;
-}
-
-.timestudylocked.idlestudylocked {
-    background: #2d3239 !important;
 }
 
 .timestudylocked:hover {
@@ -460,15 +391,6 @@ input {
     background: black !important;
     border: 1px solid #b341e0 !important;
     animation: studyGlowIn 7s infinite;
-}
-
-.greedbtn {
-    background-color: #f2d729 !important;
-    color: black !important;
-}
-
-.greedbtn:hover {
-    background-color: #9E913A !important;
 }
 
 @keyframes antimatterGlow {

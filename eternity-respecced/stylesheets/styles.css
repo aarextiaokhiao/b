@@ -585,6 +585,21 @@
     background: white;
 }
 
+.extragalactictabbtn {
+    color: #e0b341;
+    background: black;
+    border: 2px solid #e0b341;
+    font-weight: bold;
+    border-radius: 4px;
+    transition-duration: 0.2s;
+    cursor: pointer;
+}
+
+.extragalactictabbtn:hover {
+    color: #685115;
+    background: white;
+}
+
 .achievementlocked {
     background: #A3A3A3;
     border: 2px solid #B84B5F;
@@ -719,22 +734,6 @@
     transition-duration: 0.1s;
 }
 
-.greedbtn {
-    height: 40px;
-    width: 100px;
-    background-color: #f2d729;
-    border: 1px solid red;
-    border-radius: 5px;
-    font-family: TypeWriter;
-    transition-duration: 0.2s;
-}
-
-.greedbtn:hover {
-    cursor: pointer;
-    background-color: #9E913A;
-
-}
-
 .timestudy {
     color: #b341e0;
     background: black;
@@ -752,75 +751,9 @@
     animation: studyGlowIn 7s infinite;
 }
 
-.timestudy.normaldimstudy {
-    color: #22aa48 !important;
-    border: 1px solid #198036 !important;
-    animation: normalDimStudyGlowIn 7s infinite;
-}
-
-.timestudy.infdimstudy {
-    color: #B67F33 !important;
-    border: 1px solid #8b6227 !important;
-    animation: infDimStudyGlowIn 7s infinite;
-}
-
-.timestudy.timedimstudy {
-    color: #B241E3 !important;
-    border: 1px solid #951ec8 !important;
-    animation: timeDimStudyGlowIn 7s infinite;
-}
-
-.timestudy.activestudy {
-    color: #FF0100 !important;
-    border: 1px solid #cc0000 !important;
-    animation: activeStudyGlowIn 7s infinite;
-}
-
-.timestudy.passivestudy {
-    color: #5E33B6 !important;
-    border: 1px solid #4b288f !important;
-    animation: passiveStudyGlowIn 7s infinite;
-}
-
-.timestudy.idlestudy {
-    color: #0080ff !important;
-    border: 1px solid #0066cc !important;
-    animation: idleStudyGlowIn 7s infinite;
-}
-
 .timestudy:hover {
     color: #DADADA;
     background: #3A0A57;
-}
-
-.timestudy.normaldimstudy:hover {
-    color: #EEEEEE !important;
-    background: #22aa48 !important;
-}
-
-.timestudy.infdimstudy:hover {
-    color: #EEEEEE !important;
-    background: #B67F33 !important;
-}
-
-.timestudy.timedimstudy:hover {
-    color: #EEEEEE !important;
-    background: #B241E3 !important;
-}
-
-.timestudy.activestudy:hover {
-    color: #EEEEEE !important;
-    background: #FF0100 !important;
-}
-
-.timestudy.passivestudy:hover {
-    color: #EEEEEE !important;
-    background: #5E33B6 !important;
-}
-
-.timestudy.idlestudy:hover {
-    color: #EEEEEE !important;
-    background: #0080ff !important;
 }
 
 .timestudylocked {
@@ -898,11 +831,44 @@
     background: #652F2F;
 }
 
-#treeimage {
-    padding-top: 160px;
-    position: absolute;
-    padding-left: 70px;
-    z-index: -999;
+.galactictheorembtn {
+    color: #D63AAC;
+    background: #282320;
+    font-weight: bold;
+    font-family: Typewriter;
+    border: 1px solid #a5691f;
+    width: 170px;
+    height: 70px;
+    transition-duration: 0.2s;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    vertical-align: top;
+    margin:7px;
+}
+
+.galactictheorembtn:hover {
+    color: #282320;
+    background: #D63AAC;
+}
+
+.galactictheorembtnlocked {
+    color: black;
+    background: #4A4A4A;
+    font-weight: bold;
+    font-family: Typewriter;
+    border: 1px solid #a5691f;
+    width: 170px;
+    height: 70px;
+    transition-duration: 0.2s;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    vertical-align: top;
+    margin:7px;
+}
+
+.galactictheorembtnlocked:hover {
+    background: #2F2F65;
 }
 
 #loading {
@@ -964,6 +930,42 @@
     font-family: Typewriter;
 }
 
+.galacticupbtn {
+    color: #e0b341;
+    background: black;
+    font-weight: bold;
+    font-size: 10px;
+    border: 1px solid #e0b341;
+    width: 210px;
+    height: 100px;
+    transition-duration: 0.2s;
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: Typewriter;
+}
+
+.galacticupbtn:hover {
+    color: #685115;
+    background: white;
+}
+
+.galacticupbtnlocked {
+    color: #181818;
+    background: #5F5F5F;
+    font-weight: bold;
+    font-size: 10px;
+    border: 1px solid #e0b341;
+    width: 210px;
+    height: 100px;
+    transition-duration: 0.2s;
+    border-radius: 4px;
+    font-family: Typewriter;
+}
+
+.galacticupbtnlocked:hover {
+    background: #737373;
+}
+
 .eternityttbtn {
     color: #b341e0;
     background: black;
@@ -1010,6 +1012,52 @@
     background: #737373;
 }
 
+.galactictbtn {
+    color: #e0b341;
+    background: black;
+    font-weight: bold;
+    font-size: 10px;
+    border: 1px solid #e0b341;
+    width: 230px;
+    height: 130px;
+    transition-duration: 0.2s;
+    cursor: pointer;
+    border-radius: 4px;
+    font-family: Typewriter;
+}
+
+.galactictbtn > .btnspan {
+    display: block;
+    height: 100%;
+}
+
+.galactictbtn:hover {
+    color: #685115;
+    background: white;
+}
+
+.galactictbtnlocked {
+    color: #181818;
+    background: #5F5F5F;
+    font-weight: bold;
+    font-size: 10px;
+    border: 1px solid #e0b341;
+    width: 230px;
+    height: 130px;
+    transition-duration: 0.2s;
+    border-radius: 4px;
+    font-family: Typewriter;
+}
+
+.galactictbtnlocked > .btnspan {
+    display: block;
+    height: 100%;
+}
+
+.galactictbtnlocked:hover {
+    background: #737373;
+}
+
 .milestonereward {
     width: 250px;
     height: 60px;
@@ -1039,6 +1087,38 @@
 }
 
 .milestoneText {
+    font-size: 20px;
+}
+
+.galacticmilestonereward {
+    width: 250px;
+    height: 60px;
+    color: black;
+    background: #C38D48;
+    font-weight: bold;
+    font-family: Typewriter;
+    border: 1px solid #a5691f;
+    transition-duration: 0.2s;
+    border-radius: 4px;
+    vertical-align: top;
+    font-size: 12px;
+}
+
+.galacticmilestonerewardlocked {
+    width: 250px;
+    height: 60px;
+    color: black;
+    background: #696969;
+    font-weight: bold;
+    font-family: Typewriter;
+    border: 1px solid #a5691f;
+    transition-duration: 0.2s;
+    border-radius: 4px;
+    vertical-align: top;
+    font-size: 12px;
+}
+
+.galacticMilestoneText {
     font-size: 20px;
 }
 
@@ -1396,40 +1476,4 @@ screen and (max-width: 480px) {
     0%  {box-shadow: inset 0px 0px 3px 0px #b341e0;}
     50% {box-shadow: inset 0px 0px 15px 0px #b341e0;}
     100%  {box-shadow: inset 0px 0px 3px 0px #b341e0;}
-}
-
-@keyframes normalDimStudyGlowIn {
-    0%  {box-shadow: inset 0px 0px 3px 0px #22aa48;}
-    50% {box-shadow: inset 0px 0px 20px 0px #22aa48;}
-    100%  {box-shadow: inset 0px 0px 3px 0px #22aa48;}
-}
-
-@keyframes infDimStudyGlowIn {
-    0%  {box-shadow: inset 0px 0px 3px 0px #B67F33;}
-    50% {box-shadow: inset 0px 0px 20px 0px #B67F33;}
-    100%  {box-shadow: inset 0px 0px 3px 0px #B67F33;}
-}
-
-@keyframes timeDimStudyGlowIn {
-    0%  {box-shadow: inset 0px 0px 3px 0px #B241E3;}
-    50% {box-shadow: inset 0px 0px 20px 0px #B241E3;}
-    100%  {box-shadow: inset 0px 0px 3px 0px #B241E3;}
-}
-
-@keyframes activeStudyGlowIn {
-    0%  {box-shadow: inset 0px 0px 3px 0px #FF0100;}
-    50% {box-shadow: inset 0px 0px 20px 0px #FF0100;}
-    100%  {box-shadow: inset 0px 0px 3px 0px #FF0100;}
-}
-
-@keyframes passiveStudyGlowIn {
-    0%  {box-shadow: inset 0px 0px 3px 0px #5E33B6;}
-    50% {box-shadow: inset 0px 0px 20px 0px #5E33B6;}
-    100%  {box-shadow: inset 0px 0px 3px 0px #5E33B6;}
-}
-
-@keyframes idleStudyGlowIn {
-    0%  {box-shadow: inset 0px 0px 3px 0px #0080ff;}
-    50% {box-shadow: inset 0px 0px 20px 0px #0080ff;}
-    100%  {box-shadow: inset 0px 0px 3px 0px #0080ff;}
 }

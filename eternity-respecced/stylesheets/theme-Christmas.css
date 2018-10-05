@@ -101,12 +101,45 @@ body {
     border-color: black !important;
 }
 
+.extragalacticbtn {
+    color: #656395 !important;
+    background: black !important;
+    border-color: #656395 !important;
+}
+
+.extragalacticbtn:hover {
+    color: black !important;
+    background: #656395 !important;
+    border-color: black !important;
+}
+
+.extragalactictabbtn {
+    color: #656395 !important;
+    background: black !important;
+    border-color: #656395 !important;
+}
+
+.extragalactictabbtn:hover {
+    color: black !important;
+    background: #656395 !important;
+    border-color: black !important;
+}
+
 .EPAmount1 {
     color: #639565;
 }
 
 .EPAmount2 {
     color: #639565;
+    text-shadow: 1px 1px 0px black;
+}
+
+.GPAmount1 {
+    color: #656395;
+}
+
+.GPAmount2 {
+    color: #656395;
     text-shadow: 1px 1px 0px black;
 }
 
@@ -247,6 +280,27 @@ input {
     background: #c5ba26 !important;
 }
 
+.galacticupbtn {
+    color: #656395 !important;
+    background-color: black !important;
+    border-color: #656395 !important;
+}
+
+.galacticupbtn:hover {
+    color: black !important;
+    background-color: #656395 !important;
+    border-color: black !important;
+}
+
+.galacticupbtnlocked {
+    background: #1d9a92 !important;
+    border-color: black !important;
+}
+
+.galacticupbtnlocked:hover {
+    background: #26c5ba !important;
+}
+
 .timetheorembtn {
     color: #639565 !important;
     border-color: #639565 !important;
@@ -266,6 +320,25 @@ input {
     border-color: black !important;
 }
 
+.galactictheorembtn {
+    color: #656395 !important;
+    border-color: #656395 !important;
+}
+
+.galactictheorembtn:hover {
+    color: #282320 !important;
+    background: #656395 !important;
+}
+
+.galactictheorembtnlocked {
+    border-color: #656395 !important;
+}
+
+.galactictheorembtnlocked:hover {
+    background: #21d726 !important;
+    border-color: black !important;
+}
+
 .timestudy {
     color: #673AB7 !important;
     border: 1px solid #4527A0 !important;
@@ -277,59 +350,10 @@ input {
     background: #512DA8 !important;
 }
 
-.timestudy.normaldimstudy:hover {
-    color: #EEEEEE !important;
-    background: #22aa48 !important;
-}
-
-.timestudy.infdimstudy:hover {
-    color: #EEEEEE !important;
-    background: #B67F33 !important;
-}
-
-.timestudy.timedimstudy:hover {
-    color: #EEEEEE !important;
-    background: #B241E3 !important;
-}
-
-.timestudy.activestudy:hover {
-    color: #EEEEEE !important;
-    background: #FF0100 !important;
-}
-
-.timestudy.idlestudy:hover {
-    color: #EEEEEE !important;
-    background: #0080ff !important;
-}
-
 .timestudybought {
     color: black !important;
     background: #639565 !important;
     border: 1px solid black !important;
-}
-
-.timestudybought.normaldimstudy {
-    background: #22aa48 !important;
-}
-
-.timestudybought.infdimstudy {
-    background: #B67F33 !important;
-}
-
-.timestudybought.timedimstudy {
-    background: #B241E3 !important;
-}
-
-.timestudybought.activestudy {
-    background: #FF0100 !important;
-}
-
-.timestudybought.passivestudy {
-    background: #5E33B6 !important;
-}
-
-.timestudybought.idlestudy {
-    background: #0080ff !important;
 }
 
 .timestudylocked {
@@ -337,30 +361,6 @@ input {
     background: #9E9E9E !important;
     box-shadow: 1px 1px 1px 0px #000;
     border: none !important;
-}
-
-.timestudylocked.normaldimstudylocked {
-    background: #94a89a !important;
-}
-
-.timestudylocked.infdimstudylocked {
-    background: #a8a094 !important;
-}
-
-.timestudylocked.timedimstudylocked {
-    background: #a294a8 !important;
-}
-
-.timestudylocked.activestudylocked {
-    background: #a89494 !important;
-}
-
-.timestudylocked.passivestudylocked {
-    background: #9b94a8 !important;
-}
-
-.timestudylocked.idlestudylocked {
-    background: #949ea8 !important;
 }
 
 .timestudylocked:hover {
@@ -378,15 +378,15 @@ input {
     border: none !important;
 }
 
-.greedbtn {
-    color: black !important;
-    background: #dbd242 !important;
-    border-color: black !important;
+.galacticmilestonereward {
+    background: #656395 !important;
+    border-color: #515077 !important;
 }
 
-.greedbtn:hover {
-    color: #dbd242 !important;
-    background: black !important;
+.galacticmilestonerewardlocked {
+    background: #9E9E9E !important;
+    box-shadow: 1px 1px 1px 0px #000;
+    border: none !important;
 }
 
 #snow {
