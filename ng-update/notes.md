@@ -62,3 +62,5 @@ And after a bit more messing around, we're done with that! 1/4 done!
 Now we have the blackhole stuff. This is going to require a new eternity subtab, so let's create that. We need to create both a button to access it and the subtab itself. It's sort of like the replicanti subtab in that it's never hidden, it just has an unlock requirement.
 
 I did that and then committed, so you can see it in the commit history. There really is a lot of blackhole stuff, isn't there?
+
+Ok, I found everything in game.js and load_functions.js that mentioned time dimensions and added the analogous thing for blackhole dimensions. I also copied time_dimensions.js into a new file blackhole.js; there's more to the blackhole than blackhole dimensions, but it's a good base.

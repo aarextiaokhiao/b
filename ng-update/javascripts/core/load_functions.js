@@ -24,6 +24,8 @@ if (player.options.notation === undefined) player.options.notation = "Standard";
   if (player.options.cloud === undefined) player.options.cloud = true
   if (player.options.hotkeys === undefined) player.options.hotkeys = true
   if (player.options.eternityconfirm === undefined) player.options.eternityconfirm = true
+  if (player.options.dilationconfirm === undefined) player.options.dilationconfirm = true
+  if (player.options.exdilationconfirm === undefined) player.options.exdilationconfirm = true
   if (player.options.themes === undefined) player.options.themes = "Normal"
   if (player.options.secretThemeKey === undefined) player.options.secretThemeKey = 0
   if (player.achievements === undefined) player.achievements = [];
@@ -186,6 +188,50 @@ if (player.infinitied > 0 && !player.challenges.includes("challenge1")) player.c
           power: new Decimal(1),
           bought: 0
       }
+  }
+
+  if (player.blackhole === undefined) {
+      player.blackhole = {
+          unl: false,
+          upgrades: {dilatedTime: 0, bankedInfinities: 0, replicanti: 0, total: 0},
+          power: new Decimal(0)
+      };
+      player.blackholeDimension1 = {
+          cost: new Decimal('1e4000'),
+          amount: new Decimal(0),
+          power: new Decimal(1),
+          bought: 0
+      }
+      player.blackholeDimension2 = {
+          cost: new Decimal('1e8000'),
+          amount: new Decimal(0),
+          power: new Decimal(1),
+          bought: 0
+      }
+      player.blackholeDimension3 = {
+          cost: new Decimal('1e12000'),
+          amount: new Decimal(0),
+          power: new Decimal(1),
+          bought: 0
+      }
+      player.blackholeDimension4 = {
+          cost: new Decimal('1e20000'),
+          amount: new Decimal(0),
+          power: new Decimal(1),
+          bought: 0
+      }
+  }
+
+  if (player.exdilation === undefined) {
+      player.exdilation = {
+          unspent: new Decimal(0),
+          spent: {
+              1: new Decimal(0),
+              2: new Decimal(0),
+              3: new Decimal(0)
+          },
+          times: 0
+      };
   }
 
   if (player.infinityDimension1.baseAmount === undefined) {
@@ -368,12 +414,14 @@ if (player.version < 5) {
   toggleChallengeRetry()
   toggleBulk()
   toggleBulk()
-  toggleCloud()
-  toggleCloud()
   respecToggle()
   respecToggle()
   toggleEternityConf()
   toggleEternityConf()
+  toggleDilationConf()
+  toggleDilationConf()
+  toggleExdilationConf()
+  toggleExdilationConf()
   toggleCommas()
   toggleCommas()
   if (!player.replicanti.auto[0]) document.getElementById("replauto1").textContent = "Auto: OFF"
@@ -395,13 +443,21 @@ if (player.version < 5) {
       document.getElementById("replicantiunlock").style.display="inline-block"
   }
 
+  if (player.blackhole.unl == true) {
+      document.getElementById("blackholediv").style.display="inline-block"
+      document.getElementById("blackholeunlock").style.display="none"
+  } else {
+      document.getElementById("blackholediv").style.display="none"
+      document.getElementById("blackholeunlock").style.display="inline-block"
+  }
+
   if (player.currentChallenge == "challenge12" || player.currentChallenge == "challenge9" || player.currentChallenge == "challenge5" ||
       player.currentChallenge == "postc1" || player.currentChallenge == "postc4" || player.currentChallenge == "postc5" || player.currentChallenge == "postc6" || player.currentChallenge == "postc8") document.getElementById("quickReset").style.display = "inline-block";
   else document.getElementById("quickReset").style.display = "none";
 
 
   if (player.break == true) document.getElementById("break").textContent = "FIX INFINITY"
-  document.getElementById("infiMult").innerHTML = "Multiply infinity points from all sources by 2 <br>currently: "+shortenDimensions(player.infMult.times(kongIPMult)) +"x<br>Cost: "+shortenCosts(player.infMultCost)+" IP"
+  document.getElementById("infiMult").innerHTML = "Multiply infinity points from all sources by 2 <br>currently: "+shortenDimensions(player.infMult) +"x<br>Cost: "+shortenCosts(player.infMultCost)+" IP"
 
   document.getElementById("notation").textContent = "Notation: " + player.options.notation
 
@@ -596,19 +652,6 @@ if (player.version < 5) {
 
 }
 
-function load_cloud_save(saveId, cloudPlayer) {
-  saves[saveId] = cloudPlayer;
-
-  if (window.location.href.split("//")[1].length > 20) set_save('dimensionTestSave', saveId, cloudPlayer);
-  else set_save('dimensionSave', saveId, cloudPlayer);
-
-  if (currentSave == saveId) {
-    load_game();
-    updateChallenges();
-    transformSaveToDecimal();
-  }
-}
-
 function load_game(root) {
   if (!root) {
     if (window.location.href.split("//")[1].length > 20) var root = get_save('dimensionTestSave');
@@ -747,6 +790,27 @@ function transformSaveToDecimal() {
   player.timeDimension6.power = new Decimal(player.timeDimension6.power)
   player.timeDimension7.power = new Decimal(player.timeDimension7.power)
   player.timeDimension8.power = new Decimal(player.timeDimension8.power)
+
+  player.exdilation.unspent = new Decimal(player.exdilation.unspent)
+  player.exdilation.spent[1] = new Decimal(player.exdilation.spent[1])
+  player.exdilation.spent[2] = new Decimal(player.exdilation.spent[2])
+  player.exdilation.spent[3] = new Decimal(player.exdilation.spent[3])
+
+  player.blackhole.power = new Decimal(player.blackhole.power)
+
+  player.blackholeDimension1.amount = new Decimal(player.blackholeDimension1.amount)
+  player.blackholeDimension2.amount = new Decimal(player.blackholeDimension2.amount)
+  player.blackholeDimension3.amount = new Decimal(player.blackholeDimension3.amount)
+  player.blackholeDimension4.amount = new Decimal(player.blackholeDimension4.amount)
+  player.blackholeDimension1.cost = new Decimal(player.blackholeDimension1.cost)
+  player.blackholeDimension2.cost = new Decimal(player.blackholeDimension2.cost)
+  player.blackholeDimension3.cost = new Decimal(player.blackholeDimension3.cost)
+  player.blackholeDimension4.cost = new Decimal(player.blackholeDimension4.cost)
+  player.blackholeDimension1.power = new Decimal(player.blackholeDimension1.power)
+  player.blackholeDimension2.power = new Decimal(player.blackholeDimension2.power)
+  player.blackholeDimension3.power = new Decimal(player.blackholeDimension3.power)
+  player.blackholeDimension4.power = new Decimal(player.blackholeDimension4.power)
+
   player.timeShards = new Decimal(player.timeShards)
   player.eternityPoints = new Decimal(player.eternityPoints)
   player.tickThreshold = new Decimal(player.tickThreshold)

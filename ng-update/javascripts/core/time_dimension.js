@@ -1,5 +1,14 @@
 //time dimensions
 
+function updateTimeShards() {
+    if (document.getElementById("timedimensions").style.display == "block" && document.getElementById("dimensions").style.display == "block") {
+        document.getElementById("timeShardAmount").textContent = shortenMoney(player.timeShards)
+        document.getElementById("tickThreshold").textContent = shortenMoney(player.tickThreshold)
+        if (player.currentEternityChall == "eterc7") document.getElementById("timeShardsPerSec").textContent = "You are getting "+shortenDimensions(getTimeDimensionProduction(1))+" Eighth Infinity Dimensions per second."
+        else document.getElementById("timeShardsPerSec").textContent = "You are getting "+shortenDimensions(getTimeDimensionProduction(1))+" Timeshards per second."
+    }
+}
+
 function getTimeDimensionPower(tier) {
   if (player.currentEternityChall == "eterc11") return new Decimal(1)
   var dim = player["timeDimension"+tier]
@@ -7,8 +16,6 @@ function getTimeDimensionPower(tier) {
 
   if (player.timestudy.studies.includes(11) && tier == 1) ret = ret.dividedBy(player.tickspeed.dividedBy(1000).pow(0.005).times(0.95).plus(player.tickspeed.dividedBy(1000).pow(0.0003).times(0.05)).max(Decimal.fromMantissaExponent(1, -2500)))
   if (player.achievements.includes("r105")) ret = ret.div(player.tickspeed.div(1000).pow(0.000005))
-
-  ret = ret.times(kongAllDimMult)
 
   if (player.eternityUpgrades.includes(4)) ret = ret.times(player.achPow)
   if (player.eternityUpgrades.includes(5)) ret = ret.times(Math.max(player.timestudy.theorem, 1))
@@ -36,12 +43,12 @@ function getTimeDimensionPower(tier) {
     ret = ret.times(replmult.pow(0.1))
   }
 
-  if (ret.lt(0)) {
-    ret = new Decimal(0)
+  if (ret.lt(1)) {
+    ret = new Decimal(1)
   }
 
   if (player.dilation.active) {
-    ret = Decimal.pow(10, Math.pow(ret.log10(), 0.75))
+    ret = Decimal.pow(10, Math.pow(ret.log10(), 0.75 + 0.25 * exDilationBenefit()))
     if (player.dilation.upgrades.includes(9)) {
       ret = Decimal.pow(10, Math.pow(ret.log10(), 1.05))
     }
@@ -130,6 +137,10 @@ function buyTimeDimension(tier) {
   }
   if (tier > 4) {
     dim.cost = Decimal.pow(timeDimCostMults[tier]*100, dim.bought).times(timeDimStartCosts[tier])
+  }
+  if (dim.cost.gte("1e10000")) {
+      let over = dim.cost.div(new Decimal("1e10000"));
+      dim.cost = Decimal.pow(over, Math.log10(over.log(10) / 1000 + 1) + 1).times(new Decimal("1e10000"));
   }
   dim.power = dim.power.times(2)
   updateEternityUpgrades()

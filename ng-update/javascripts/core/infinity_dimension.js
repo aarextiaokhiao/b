@@ -1,5 +1,12 @@
 //infinity dimensions
 
+function updateInfPower() {
+    document.getElementById("infPowAmount").textContent = shortenMoney(player.infinityPower)
+    if (player.currentEternityChall == "eterc9") document.getElementById("infDimMultAmount").textContent = shortenMoney((Decimal.pow(Math.max(player.infinityPower.log2(), 1), 4)).max(1))
+    else document.getElementById("infDimMultAmount").textContent = shortenMoney(player.infinityPower.pow(7))
+    if (player.currentEternityChall == "eterc7") document.getElementById("infPowPerSec").textContent = "You are getting " +shortenDimensions(DimensionProduction(1))+" Seventh Dimensions per second."
+    else document.getElementById("infPowPerSec").textContent = "You are getting " +shortenDimensions(DimensionProduction(1))+" Infinity Power per second."
+}
 
 function DimensionDescription(tier) {
   var name = TIER_NAMES[tier];
@@ -56,7 +63,7 @@ function DimensionProduction(tier) {
   if (player.challenges.includes("postc6")) {
       let tick = new Decimal(player.tickspeed)
       if (player.dilation.active) {
-        tick = Decimal.pow(10, Math.pow(Math.abs(tick.log10()), 0.75))
+        tick = Decimal.pow(10, Math.pow(Math.abs(tick.log10()), 0.75 + 0.25 * exDilationBenefit()))
         if (player.dilation.upgrades.includes(9)) {
           tick = Decimal.pow(10, Math.pow(Math.abs(tick.log10()), 1.05))
         }
@@ -74,7 +81,6 @@ function DimensionPower(tier) {
 
   mult = mult.times(infDimPow)
 
-  mult = mult.times(kongAllDimMult)
   if (player.achievements.includes("r94") && tier == 1) mult = mult.times(2);
   if (player.achievements.includes("r75")) mult = mult.times(player.achPow);
   if (player.replicanti.unl && player.replicanti.amount.gt(1)) {
@@ -111,10 +117,10 @@ function DimensionPower(tier) {
 
   if (ECTimesCompleted("eterc9") !== 0) mult = mult.times(player.timeShards.pow(ECTimesCompleted("eterc9")*0.1).plus(1).min(new Decimal("1e400")))
 
-  if (mult.lt(0)) mult = new Decimal(0)
+  if (mult.lt(1)) mult = new Decimal(1)
 
   if (player.dilation.active) {
-    mult = Decimal.pow(10, Math.pow(mult.log10(), 0.75))
+    mult = Decimal.pow(10, Math.pow(mult.log10(), 0.75 + 0.25 * exDilationBenefit()))
     if (player.dilation.upgrades.includes(9)) {
       mult = Decimal.pow(10, Math.pow(mult.log10(), 1.05))
     }

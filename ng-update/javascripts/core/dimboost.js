@@ -149,6 +149,12 @@ function softReset(bulk) {
       dimlife: player.dimlife,
       dead: player.dead,
       dilation: player.dilation,
+      exdilation: player.exdilation,
+      blackhole: player.blackhole,
+      blackholeDimension1: player.blackholeDimension1,
+      blackholeDimension2: player.blackholeDimension2,
+      blackholeDimension3: player.blackholeDimension3,
+      blackholeDimension4: player.blackholeDimension4,
       why: player.why,
       options: player.options
   };
@@ -244,7 +250,7 @@ document.getElementById("softReset").onclick = function () {
   auto = false;
   if (player.infinityUpgrades.includes("bulkBoost")) maxBuyDimBoosts(true);
   else softReset(1)
-  
+
   for (var tier = 1; tier<9; tier++) {
     var name = TIER_NAMES[tier];
     var mult = getDimensionBoostPower().pow(player.resets + 1 - tier)
