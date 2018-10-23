@@ -575,6 +575,13 @@ if (player.version < 5) {
     }
   }
 
+  if (player.version < 13) {
+    player.version = 13
+    alert("I accidentally gave some people a save that acted as if it had only " +
+    "4 EC6 completions, which was a serious issue. As compensation, take this update, " +
+    "which fixes that bug and some other stuff also.");
+  }
+
   // player.version is currently 12.1
   if (player.options.notation == "Default") {
       player.options.notation = "Brackets";

@@ -146,11 +146,7 @@ newsArray = [//always true
 ["This news message is 1000000000000x rarer than all the others.", "Math.random() <= 1e-12", "l10"],
 //missable / pay req
 ["How dare you actually get zero deaths on a first run?", 'player.achievements.includes("r43") && player.infinitied == 1 && player.eternities == 0', "s1"],
-["Legend says the ninth dimension is supposed to be found here, but I don't see anything.", "player.money.e >= 41900 && !player.replicanti.unl && player.eternities == 0", "s2"],
-["Person with money likes to support this game.", "kongDimMult > 1 || kongIPMult > 1", "s3"],
-["Whale is bad at making smart purchases.", "kongIPMult > 500 && kongDimMult < 5e307", "s4"],
-["Whale complains that the game broke.", "kongDimMult > 5e307", "s5"],
-["Whale complains that their buying isn't doing anything.", "kongIPMult > 1.8e16", "s6"]
+["Legend says the ninth dimension is supposed to be found here, but I don't see anything.", "player.money.e >= 41900 && !player.replicanti.unl && player.eternities == 0", "s2"]
 ];}
 
 var s = document.getElementById('news');
@@ -207,4 +203,3 @@ function scrollNextMessage() {
     scrollTimeouts.push(setTimeout(scrollNextMessage, Math.ceil(transformDuration * 1000)));
   }, 100));
 }
-

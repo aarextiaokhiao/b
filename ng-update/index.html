@@ -538,13 +538,13 @@
                     </tr>
                     <tr>
                         <td>
-                            <button class="timestudybought" style="opacity: 0;"></button>
-                        </td>
-                        <td>
                             <button class="timestudy" id="dil10" onclick="buyDilationUpgrade(10)">Generate time theorems based on tachyon particles.<br><span id="dil10desc"></span><br><span id="dil10cost"></span></button>
                         </td>
                         <td>
-                            <button class="timestudybought" style="opacity: 0;"></button>
+                            <button class="timestudy" id="dil11" onclick="buyDilationUpgrade(11)">Get 5% more tachyon particles for each 1e1000 replicanti.<br><span id="dil11desc"></span><br><span id="dil11cost"></span></button>
+                        </td>
+                        <td>
+                            <button class="timestudy" id="dil12" onclick="buyDilationUpgrade(12)">Eternities and dilated time each boost production of the other by x ^ 0.1.<br><span id="dil12cost"></span></button>
                         </td>
                     </tr>
                 </table>
@@ -1064,18 +1064,14 @@
                     <td><div><button id="commas" onclick="toggleCommas()" class="storebtn" style="color:black; width: 200px; height: 55px; font-size:120%">Commas on large exponents ON</button></div></td>
                 </tr>
                 <tr>
-                    <td><div><button id="dilationconf" onclick="toggleDilationConf()" class="storebtn" style="color:black; width: 200px; height: 55px; font-size:120%; display: none">Dilation confirmation ON</button></div></td>
-                    <td><div><button id="eternityconf" onclick="toggleEternityConf()" class="storebtn" style="color:black; width: 200px; height: 55px; font-size:120%; display: none">Eternity confirmation ON</button></div></td>
-                    <td><div><button id="exdilationconf" onclick="toggleExdilationConf()" class="storebtn" style="color:black; width: 200px; height: 55px; font-size:120%; display: none">Reverse dilation confirmation ON</button></div></td>
-                </tr>
-                <tr>
 					          <td><div><button id="animationoptionsbtn" class="storebtn" style="width: 200px; height: 55px; font-size:160%;">Animations</button></div></td>
                     <td><div class="storebtn" style="color:black; width: 198px; height: 55px; font-size:130%; text-align: center;"><b id="updaterate">Update Rate: 50ms</b><input id="updaterateslider" style="width: 170px;" type="range" min="33" max="200" value="50" class="slider" ></div></td>
-                    <td></td>
+                    <td><div><button id="eternityconf" onclick="toggleEternityConf()" class="storebtn" style="color:black; width: 200px; height: 55px; font-size:120%; display: none">Eternity confirmation ON</button></div></td>
                 </tr>
                 <tr>
-
-
+                    <td><div><button id="dilationconf" onclick="toggleDilationConf()" class="storebtn" style="color:black; width: 200px; height: 55px; font-size:120%; display: none">Dilation confirmation ON</button></div></td>
+                    <td><div><button id="exdilationconf" onclick="toggleExdilationConf()" class="storebtn" style="color:black; width: 200px; height: 55px; font-size:120%; display: none">Reverse dilation confirmation ON</button></div></td>
+                    <td></td>
                 </tr>
 
 

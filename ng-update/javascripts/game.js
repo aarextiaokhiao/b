@@ -91,7 +91,7 @@ var player = {
     dimensionMultDecrease: 10,
     dimensionMultDecreaseCost: 1e8,
     overXGalaxies: 10,
-    version: 10,
+    version: 13,
     infDimensionsUnlocked: [false, false, false, false, false, false, false, false],
     infinityPower: new Decimal(1),
     spreadingCancer: 0,
@@ -3195,6 +3195,14 @@ function getBankedInfinitiesGain() {
     return Math.floor(player.infinitied*frac);
 }
 
+function gainedEternities (){
+    let ret = 1;
+    if (player.dilation.upgrades.includes(12)) {
+        ret *= player.dilation.dilatedTime.max(1).pow(0.1).floor()
+    }
+    return ret;
+}
+
 function eternity(force, auto) {
     if ((player.infinityPoints.gte(Number.MAX_VALUE) && (!player.options.eternityconfirm || auto || confirm("Eternity will reset everything except achievements and challenge records. You will also gain an Eternity point and unlock various upgrades."))) || force === true) {
         if (force) player.currentEternityChall = "";
@@ -3205,8 +3213,6 @@ function eternity(force, auto) {
             if (player.bestEternity <= 0.01) giveAchievement("Less than or equal to 0.001");
         }
         if (player.thisEternity < 2) giveAchievement("Eternities are the new infinity")
-        if (player.currentEternityChall == "eterc6" && ECTimesCompleted("eterc6") < 5) player.dimensionMultDecrease = parseFloat((player.dimensionMultDecrease - 0.2).toFixed(1))
-        if (player.currentEternityChall == "eterc11" && ECTimesCompleted("eterc11") < 5) player.tickSpeedMultDecrease = parseFloat((player.tickSpeedMultDecrease - 0.07).toFixed(2))
         if (player.infinitied < 10 && !force) giveAchievement("Do you really need a guide for this?");
         if (Decimal.round(player.replicanti.amount) == 9) giveAchievement("We could afford 9");
         if (player.dimlife && !force) giveAchievement("8 nobody got time for that")
@@ -3314,9 +3320,9 @@ function eternity(force, auto) {
             lastTenEternities: player.lastTenEternities,
             infMult: new Decimal(1),
             infMultCost: new Decimal(10),
-            tickSpeedMultDecrease: player.eternities > 18 ? player.tickSpeedMultDecrease : 10,
+            tickSpeedMultDecrease: (player.eternities > 18 ? 2 : 10) - .07 * ECTimesCompleted("eterc11"),
             tickSpeedMultDecreaseCost: player.eternities > 18 ? player.tickSpeedMultDecreaseCost : 3e6,
-            dimensionMultDecrease: player.eternities > 18 ? player.dimensionMultDecrease : 10,
+            dimensionMultDecrease: (player.eternities > 18 ? 3 : 10) - .2 * ECTimesCompleted("eterc6"),
             dimensionMultDecreaseCost: player.eternities > 18 ? player.dimensionMultDecreaseCost : 1e8,
             version: player.version,
             postChallUnlocked: (player.achievements.includes("r133")) ? 8 : 0,
@@ -3395,7 +3401,7 @@ function eternity(force, auto) {
             timeDimension7: player.timeDimension7,
             timeDimension8: player.timeDimension8,
             eternityPoints: player.eternityPoints,
-            eternities: player.eternities+1,
+            eternities: player.eternities+gainedEternities(),
             thisEternity: 0,
             bestEternity: player.bestEternity,
             eternityUpgrades: player.eternityUpgrades,
@@ -4123,9 +4129,9 @@ function startEternityChallenge(name, startgoal, goalIncrease) {
             lastTenEternities: player.lastTenEternities,
             infMult: new Decimal(1),
             infMultCost: new Decimal(10),
-            tickSpeedMultDecrease: player.eternities > 18 ? player.tickSpeedMultDecrease : 10,
+            tickSpeedMultDecrease: (player.eternities > 18 ? 2 : 10) - .07 * ECTimesCompleted("eterc11"),
             tickSpeedMultDecreaseCost: player.eternities > 18 ? player.tickSpeedMultDecreaseCost : 3e6,
-            dimensionMultDecrease: player.eternities > 18 ? player.dimensionMultDecrease : 10,
+            dimensionMultDecrease: (player.eternities > 18 ? 3 : 10) - .2 * ECTimesCompleted("eterc6"),
             dimensionMultDecreaseCost: player.eternities > 18 ? player.dimensionMultDecreaseCost : 1e8,
             version: player.version,
             postChallUnlocked: (player.achievements.includes("r133")) ? 8 : 0,
@@ -4204,7 +4210,7 @@ function startEternityChallenge(name, startgoal, goalIncrease) {
             timeDimension7: player.timeDimension7,
             timeDimension8: player.timeDimension8,
             eternityPoints: player.eternityPoints,
-            eternities: player.eternities+1,
+            eternities: player.eternities+gainedEternities(),
             thisEternity: 0,
             bestEternity: player.bestEternity,
             eternityUpgrades: player.eternityUpgrades,
@@ -4398,8 +4404,8 @@ function unlockDilation() {
 
  const DIL_UPG_COSTS = [null, [1e5, 10], [1e6, 100], [1e7, 20],
                               5e6,        1e9,         5e7,
-                              2e12,        1e10,         1e11,
-                                            1e15]
+                              2e12,       1e10,        1e11,
+                              1e15,       1e20,        1e25]
 
 function getRebuyableDilUpgCost (i) {
   if (i < 3) {
@@ -4440,7 +4446,7 @@ function updateDilationUpgradeButtons() {
     } else {
         document.getElementById("xdrow").style.display = '';
     }
-    for (var i = 1; i <= 10; i++) {
+    for (var i = 1; i <= 12; i++) {
         if (i <= 3) {
             let cost = getRebuyableDilUpgCost(i);
             document.getElementById("dil"+i).className = cost.gte(player.dilation.dilatedTime) ? "dilationupgrebuyablelocked" : "dilationupgrebuyable";
@@ -4454,6 +4460,7 @@ function updateDilationUpgradeButtons() {
     }
     document.getElementById("dil7desc").textContent = "Currently: "+shortenMoney(player.dilation.dilatedTime.pow(1000).max(1))+"x"
     document.getElementById("dil10desc").textContent = "Currently: "+shortenMoney(Math.floor(player.dilation.tachyonParticles.div(20000).max(1)))+"/s"
+    document.getElementById("dil11desc").textContent = "Currently: "+shortenMoney(Math.pow(1.05, player.replicanti.amount.max(1).log(10) / 1000))+"x"
 }
 
 function getDil3Cost () {
@@ -4475,6 +4482,8 @@ function updateDilationUpgradeCosts() {
     document.getElementById("dil8cost").textContent = "Cost: " + shortenCosts(DIL_UPG_COSTS[8]) + " dilated time"
     document.getElementById("dil9cost").textContent = "Cost: " + shortenCosts(DIL_UPG_COSTS[9]) + " dilated time"
     document.getElementById("dil10cost").textContent = "Cost: " + shortenCosts(DIL_UPG_COSTS[10]) + " dilated time"
+    document.getElementById("dil11cost").textContent = "Cost: " + shortenCosts(DIL_UPG_COSTS[11]) + " dilated time"
+    document.getElementById("dil12cost").textContent = "Cost: " + shortenCosts(DIL_UPG_COSTS[12]) + " dilated time"
 }
 
 
@@ -4504,6 +4513,9 @@ function getDilatedTimePerSecond () {
     if (player.eternityUpgrades.includes(9)) {
         ret = ret.times(1 + Math.log10(Math.max(1, player.eternityPoints.log(10))) / 10);
     }
+    if (player.dilation.upgrades.includes(12)) {
+        ret = ret.times(Math.pow(Math.max(player.eternities, 1), 0.1));
+    }
     ret = ret.times(getBlackholePowerEffect());
     return ret;
 }
@@ -4521,12 +4533,20 @@ function updateDilation() {
     }
 }
 
+function getTachyonParticleMult() {
+    let ret = Math.pow(3, player.dilation.rebuyables[3] * exDilationUpgradeStrength(player.exdilation.spent[3]));
+    if (player.dilation.upgrades.includes(11)) {
+        ret = ret * Math.pow(1.05, player.replicanti.amount.max(1).log(10) / 1000);
+    }
+    return ret;
+}
+
 function gainedTachyonParticles() {
-    return Math.max(Math.pow(Decimal.log10(player.money) / 400, 1.5) * (Math.pow(3, player.dilation.rebuyables[3] * exDilationUpgradeStrength(player.exdilation.spent[3]))) - player.dilation.totalTachyonParticles, 0)
+    return Math.max(Math.pow(Decimal.log10(player.money) / 400, 1.5) * getTachyonParticleMult() - player.dilation.totalTachyonParticles, 0)
 }
 
 function requiredAntimatter() {
-    return Decimal.pow(10, Math.pow(player.dilation.totalTachyonParticles / Math.pow(3, player.dilation.rebuyables[3] * exDilationUpgradeStrength(player.exdilation.spent[3])), 2 / 3) * 400);
+    return Decimal.pow(10, Math.pow(player.dilation.totalTachyonParticles / getTachyonParticleMult(), 2 / 3) * 400);
 }
 
 function canReverseDilation() {
@@ -4892,12 +4912,6 @@ setInterval(function() {
     if (player.why >= 1e6) giveAchievement("Should we tell them about buy max...")
 
 }, 1000)
-
-function fact(v) {
-    let ret=1;
-    do {ret *= v} while (--v > 1)
-    return ret;
-}
 
 var postC2Count = 0;
 var IPminpeak = new Decimal(0)
