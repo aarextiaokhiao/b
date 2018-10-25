@@ -863,6 +863,16 @@ function onLoad() {
         player.version = 9;
     }
 
+    if (player.version < 10) {
+        alert("On November 3rd, I plan to delete all my AD-related repositories (this one, false-ad, evil-misc, and my ivark.github.io fork). " +
+        "This one and false-ad have already been forked, so you can and should switch to playing on the forks (at least for ER, which Aarex " +
+        "hasn't really implemented). evil-misc doesn't have anything directly AD-related, so no one should miss it. My ivark.github.io fork " +
+        "was just used for a PR to vanilla at one point, so no one should care if it's gone.\nIt may seem like I'm just trying to create drama. " +
+        "I am not. I am trying to abandon AD (and incremental games in general), and creation of drama might be a side effect of that which I " +
+        "don't care about as much.");
+        player.version = 10;
+    }
+
     setMatterDisplay();
     setQuickResetDisplay();
     // setDarkMatterDisplay();
